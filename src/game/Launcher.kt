@@ -28,6 +28,11 @@ fun makeTapMove(game: Game, cardNumber: String): Game {
     return game
 }
 
+fun makeIncreasePowerMove(game: Game, cardNumber: String): Game {
+    game.table!!.increaseCardPower(cardNumber.toInt())
+    return game
+}
+
 fun runGame(game: Game): String {
     printer.printCards(game.table?.cards)
 
@@ -50,15 +55,16 @@ fun waitForValidInput(): List<String> {
     return if (isValidAction(cells[0]) and isValidNumber(cells[1])) cells else waitForValidInput()
 }
 
-fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t").contains(input)
+fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i").contains(input)
 
 fun isValidNumber(input: String): Boolean = arrayOf("0", "1", "2").contains(input)
 
 fun chooseMove(game: Game, options: List<String>): Game = when (options[0]) {
     "u" -> makeUntapMove(game, options[1])
     "t" -> makeTapMove(game, options[1])
+    "i" -> makeIncreasePowerMove(game, options[1])
     "q" -> escapeGame(game)
-    else -> throw IllegalArgumentException("Actions: t,u,q space and number eg. t 2. For exit q 1")
+    else -> throw IllegalArgumentException("Actions: t,u,q,i space and number eg. t 2. For exit q 1")
 }
 
 fun escapeGame(game: Game): Game {

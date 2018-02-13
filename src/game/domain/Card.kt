@@ -4,15 +4,26 @@ class Card(
         val id: String,
         var status: CardStatus = CardStatus.TAPPED,
         val type: CardType = CardType.SUPPORT,
-        val power: Int? = 0,
-        val defence: Int? = 0
+        val startingPower: Int = 0,
+        val startingDefence: Int = 0,
+        var power: Int = 0,
+        var defence: Int = 0
 ) {
+    init {
+        this.power = this.startingPower
+        this.defence = this.startingDefence
+    }
+
     fun tap() {
         this.status = CardStatus.TAPPED
     }
 
     fun untap() {
         this.status = CardStatus.UNTAPPED
+    }
+
+    fun increasePower(howMany: Int) {
+        this.power += howMany
     }
 }
 

@@ -13,4 +13,9 @@ class Table(
         this.cards[number].untap()
         return 1
     }
+
+    fun increaseCardPower(number: Int): Int {
+        this.cards[number].increasePower(1)
+        return 1
+    }
 }

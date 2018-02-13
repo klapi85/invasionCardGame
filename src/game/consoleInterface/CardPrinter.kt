@@ -12,7 +12,8 @@ class CardPrinter() {
         var result = ""
 
         for (card in cardSet!!) {
-            result += card.id + " " + card.status + " " + card.type + " | "
+            result += card.id + " " + card.status + " " +
+                    card.type + " " + card.power + "P " + card.defence + "D | "
         }
         return result
     }

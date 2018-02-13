@@ -7,9 +7,9 @@ class Game(
     fun prepareCards() {
         this.table = Table(24,
                 arrayOf(
-                        Card("Goblin", CardStatus.UNTAPPED, CardType.UNIT),
-                        Card("Minotaur", CardStatus.UNTAPPED, CardType.UNIT),
-                        Card("Hydra", CardStatus.UNTAPPED, CardType.UNIT)
+                        Card("Goblin", CardStatus.UNTAPPED, CardType.UNIT, 1, 1),
+                        Card("Minotaur", CardStatus.UNTAPPED, CardType.UNIT, 2, 2),
+                        Card("Hydra", CardStatus.UNTAPPED, CardType.UNIT, 3, 4)
                 )
         )
     }
