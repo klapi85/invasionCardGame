@@ -18,4 +18,9 @@ class Table(
         this.cards[number].increasePower(1)
         return 1
     }
+
+    fun increaseCardDefence(number: Int): Int {
+        this.cards[number].increaseDefence(1)
+        return 1
+    }
 }

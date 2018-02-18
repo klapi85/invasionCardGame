@@ -25,6 +25,10 @@ class Card(
     fun increasePower(howMany: Int) {
         this.power += howMany
     }
+
+    fun increaseDefence(howMany: Int) {
+        this.defence += howMany
+    }
 }
 
 enum class CardStatus {
