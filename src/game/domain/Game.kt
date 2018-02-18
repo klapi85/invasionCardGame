@@ -2,9 +2,10 @@ package game.domain
 
 class Game(
         val id: Int,
-        var table: Table?
+        var table: Table = Table(24, arrayOf()),
+        var isFinished: Boolean = false
 ) {
-    fun prepareCards() {
+    init {
         this.table = Table(24,
                 arrayOf(
                         Card("Goblin", CardStatus.UNTAPPED, CardType.UNIT, 1, 1),
@@ -15,12 +16,17 @@ class Game(
     }
 
     fun tapTableCard(cardNumber: Int): Int {
-        this.table!!.tapCard(cardNumber)
+        this.table.tapCard(cardNumber)
         return 1
     }
 
     fun untapTableCard(cardNumber: Int): Int {
-        this.table!!.untapCard(cardNumber)
+        this.table.untapCard(cardNumber)
         return 1
+    }
+
+    fun escapeGame(game: Game): Game {
+        game.isFinished = true
+        return game
     }
 }

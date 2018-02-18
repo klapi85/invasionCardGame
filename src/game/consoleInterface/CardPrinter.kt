@@ -8,7 +8,7 @@ class CardPrinter() {
         return 1
     }
 
-    fun getCards(cardSet: Array<Card>?): String {
+    private fun getCards(cardSet: Array<Card>?): String {
         var result = ""
 
         for (card in cardSet!!) {
