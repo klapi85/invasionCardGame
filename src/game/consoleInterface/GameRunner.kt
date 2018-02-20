@@ -8,7 +8,10 @@ class GameRunner {
     private val printer : CardPrinter = CardPrinter()
 
     fun runGame(game: Game): String {
+        println("Table:")
         printer.printCards(game.table.cards)
+        println("Hand:")
+        printer.printCards(game.hand.cards)
 
         if (game.isFinished) {
             return ""

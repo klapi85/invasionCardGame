@@ -5,12 +5,20 @@ class Game(
         var table: Table = Table(24, arrayOf()),
         var isFinished: Boolean = false
 ) {
+    var hand: Hand = Hand(arrayOf())
+
     init {
         this.table = Table(24,
                 arrayOf(
                         Card("Goblin", CardStatus.UNTAPPED, CardType.UNIT, 1, 1),
                         Card("Minotaur", CardStatus.UNTAPPED, CardType.UNIT, 2, 2),
                         Card("Hydra", CardStatus.UNTAPPED, CardType.UNIT, 3, 4)
+                )
+        )
+
+        this.hand = Hand(
+                arrayOf(
+                        Card("Dragon", CardStatus.UNTAPPED, CardType.UNIT, 5, 4)
                 )
         )
     }
