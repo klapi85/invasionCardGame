@@ -3,12 +3,12 @@ package game.consoleInterface
 import game.domain.Card
 
 class CardPrinter() {
-    fun printCards(cardSet: Array<Card>?): Int {
+    fun printCards(cardSet: List<Card>?): Int {
         println(getCards(cardSet))
         return 1
     }
 
-    private fun getCards(cardSet: Array<Card>?): String {
+    private fun getCards(cardSet: List<Card>?): String {
         var result = ""
 
         for (card in cardSet!!) {

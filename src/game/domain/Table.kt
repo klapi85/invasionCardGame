@@ -2,7 +2,7 @@ package game.domain
 
 class Table(
         val life: Int = 24,
-        var cards: Array<Card>
+        var cards: MutableList<Card>
 ): Area() {
     fun tapCard(number: Int): Int {
         this.cards[number].tap()
@@ -17,6 +17,11 @@ class Table(
     fun increaseCardPower(number: Int): Int {
         this.cards[number].increasePower(1)
         return 1
+    }
+
+    fun putNewCardOnTable(newCard: Card): Boolean {
+        cards.add(newCard)
+        return true
     }
 
     fun increaseCardDefence(number: Int): Int {
