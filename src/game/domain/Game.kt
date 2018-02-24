@@ -32,4 +32,16 @@ class Game(
         game.isFinished = true
         return game
     }
+
+    fun checkPutCardOnTable(cardNumber: Int): Boolean {
+        val cardCost = this.hand.cards.get(cardNumber).cost
+
+        if (cardCost <= this.table.resources) {
+            this.table.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
+            this.table.resources -= cardCost
+            return true
+        } else {
+            return false
+        }
+    }
 }

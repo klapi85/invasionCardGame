@@ -6,7 +6,7 @@ class Card(
         val startingDefence: Int = 0,
         val cost: Int = 1,
         var status: CardStatus = CardStatus.UNTAPPED,
-        val type: CardType = CardType.SUPPORT,
+        val type: CardType = CardType.UNIT,
         var power: Int = 0,
         var defence: Int = 0
 ) {

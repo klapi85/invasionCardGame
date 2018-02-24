@@ -4,9 +4,7 @@ class Hand(
         var cards: MutableList<Card>
     ): Area() {
 
-    fun putOnTable(number: Int): Card {
-        val result = cards[number]
+    fun removeFromHand(number: Int): Card =
         this.cards.removeAt(number)
-        return result
-    }
+
 }

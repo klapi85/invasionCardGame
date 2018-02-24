@@ -68,8 +68,7 @@ class GameRunner {
     }
 
     private fun playCardFromHand(game: Game, cardNumber: String): Game {
-        val newCard = game.hand.putOnTable(cardNumber.toInt())
-        game.table.putNewCardOnTable(newCard)
+        game.checkPutCardOnTable(cardNumber.toInt())
         return game
     }
 }
