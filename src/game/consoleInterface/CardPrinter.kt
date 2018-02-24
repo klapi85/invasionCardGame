@@ -13,7 +13,7 @@ class CardPrinter() {
 
         for (card in cardSet!!) {
             result += card.id + " " + card.status + " " +
-                    card.type + " " + card.power + "P " + card.defence + "D | "
+                    card.type + " " + card.power + "P " + card.defence + "D " + card.cost + "$ | "
         }
         return result
     }

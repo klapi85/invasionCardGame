@@ -2,29 +2,21 @@ package game.domain
 
 class Game(
         val id: Int,
-        var table: Table = Table(24, mutableListOf()),
         var isFinished: Boolean = false
 ) {
-    var hand: Hand = Hand(mutableListOf())
-
-    init {
-        this.table = Table(24,
-                mutableListOf(
-                        Card("Red Goblin", CardStatus.UNTAPPED, CardType.UNIT, 1, 1),
-                        Card("Red Minotaur", CardStatus.UNTAPPED, CardType.UNIT, 2, 2),
-                        Card("Red Hydra", CardStatus.UNTAPPED, CardType.UNIT, 3, 4)
-                )
+    var table: Table = Table(24, 3,
+        mutableListOf(
+            Card("Red Goblin", 1, 1, 1)
         )
-
-        this.hand = Hand(
-                mutableListOf(
-                        Card("Dragon", CardStatus.UNTAPPED, CardType.UNIT, 5, 4),
-                        Card("Goblin", CardStatus.UNTAPPED, CardType.UNIT, 1, 1),
-                        Card("Minotaur", CardStatus.UNTAPPED, CardType.UNIT, 2, 2),
-                        Card("Hydra", CardStatus.UNTAPPED, CardType.UNIT, 3, 4)
-                )
+    )
+    var hand: Hand = Hand(
+        mutableListOf(
+            Card("Dragon",5, 4, 5),
+            Card("Goblin", 1, 1, 1),
+            Card("Minotaur",2, 2, 2),
+            Card("Hydra", 3, 4, 3)
         )
-    }
+    )
 
     fun tapTableCard(cardNumber: Int): Int {
         this.table.tapCard(cardNumber)

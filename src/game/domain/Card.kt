@@ -2,10 +2,11 @@ package game.domain
 
 class Card(
         val id: String,
-        var status: CardStatus = CardStatus.TAPPED,
-        val type: CardType = CardType.SUPPORT,
         val startingPower: Int = 0,
         val startingDefence: Int = 0,
+        val cost: Int = 1,
+        var status: CardStatus = CardStatus.UNTAPPED,
+        val type: CardType = CardType.SUPPORT,
         var power: Int = 0,
         var defence: Int = 0
 ) {

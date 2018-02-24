@@ -2,6 +2,7 @@ package game.domain
 
 class Table(
         val life: Int = 24,
+        val resources: Int = 3,
         var cards: MutableList<Card>
 ): Area() {
     fun tapCard(number: Int): Int {
