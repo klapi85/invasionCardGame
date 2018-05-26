@@ -7,4 +7,8 @@ class Hand(
     fun removeFromHand(number: Int): Card =
         this.cards.removeAt(number)
 
+    fun takeCardToHand(newCard: Card): Boolean {
+        this.cards.add(newCard)
+        return true
+    }
 }

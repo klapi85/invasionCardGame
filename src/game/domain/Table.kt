@@ -25,6 +25,9 @@ class Table(
         return true
     }
 
+    fun removeFromTable(number: Int): Card =
+        this.cards.removeAt(number)
+
     fun increaseCardDefence(number: Int): Int {
         this.cards[number].increaseDefence(1)
         return 1

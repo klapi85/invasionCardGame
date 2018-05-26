@@ -33,7 +33,7 @@ class GameRunner {
         return if (isValidAction(cells[0]) and isValidNumber(cells[1])) cells else waitForValidInput()
     }
 
-    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p").contains(input)
+    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h").contains(input)
 
     private fun isValidNumber(input: String): Boolean = arrayOf("0", "1", "2").contains(input)
 
@@ -43,8 +43,9 @@ class GameRunner {
         "i" -> makeIncreasePowerMove(game, options[1])
         "d" -> makeIncreaseDefenceMove(game, options[1])
         "p" -> playCardFromHand(game, options[1])
+        "h" -> takeCardToHand(game, options[1])
         "q" -> game.escapeGame(game)
-        else -> throw IllegalArgumentException("Actions: t,u,q,i,d,p space and number eg. t 2. For exit q 1")
+        else -> throw IllegalArgumentException("Actions: t,u,q,i,d,p,h space and number eg. t 2. For exit q 1")
     }
 
     private fun makeUntapMove(game: Game, cardNumber: String): Game {
@@ -69,6 +70,11 @@ class GameRunner {
 
     private fun playCardFromHand(game: Game, cardNumber: String): Game {
         game.checkPutCardOnTable(cardNumber.toInt())
+        return game
+    }
+
+    private fun takeCardToHand(game: Game, cardNumber: String): Game {
+        game.checkTakeCardToHand(cardNumber.toInt())
         return game
     }
 }

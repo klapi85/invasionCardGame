@@ -44,4 +44,9 @@ class Game(
             return false
         }
     }
+
+    fun checkTakeCardToHand(cardNumber: Int): Boolean {
+        this.hand.takeCardToHand(this.table.removeFromTable(cardNumber))
+        return true
+    }
 }
