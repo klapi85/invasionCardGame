@@ -9,6 +9,13 @@ class Game(
             Card("Red Goblin", 1, 1, 1)
         )
     )
+
+    var kingdom: TableKingdom = TableKingdom(
+        mutableListOf(
+            Card("Blue Goblin", 1, 1, 1)
+        )
+    )
+
     var hand: Hand = Hand(
         mutableListOf(
             Card("Dragon",5, 4, 5),
@@ -45,8 +52,26 @@ class Game(
         }
     }
 
+    fun checkPutCardOnTableKingdom(cardNumber: Int): Boolean {
+        val cardCost = this.hand.cards.get(cardNumber).cost
+
+        if (cardCost <= this.table.resources) {
+            this.kingdom.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
+            this.table.resources -= cardCost
+            return true
+        } else {
+            return false
+        }
+    }
+
+
     fun checkTakeCardToHand(cardNumber: Int): Boolean {
         this.hand.takeCardToHand(this.table.removeFromTable(cardNumber))
+        return true
+    }
+
+    fun checkTakeCardFromKingdomToHand(cardNumber: Int): Boolean {
+        this.hand.takeCardToHand(this.kingdom.removeFromTable(cardNumber))
         return true
     }
 }
