@@ -3,17 +3,10 @@ package game.domain
 class Table(
         var life: Int = 24,
         var resources: Int = 3,
-        var cards: MutableList<Card>
-): Area() {
-    fun tapCard(number: Int): Int {
-        this.cards[number].tap()
-        return 1
-    }
+        override var cards: MutableList<Card>
 
-    fun untapCard(number: Int): Int {
-        this.cards[number].untap()
-        return 1
-    }
+): Area() {
+
 
     fun increaseCardPower(number: Int): Int {
         this.cards[number].increasePower(1)
