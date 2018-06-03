@@ -1,12 +1,10 @@
 package game.domain
 
-class Table(
-        var life: Int = 24,
-        var resources: Int = 3,
-        override var cards: MutableList<Card>
-
+class TableBattlefield(
+    var life: Int = 24,
+    var resources: Int = 3,
+    override var cards: MutableList<Card>
 ): Area() {
-
 
     fun increaseCardPower(number: Int): Int {
         this.cards[number].increasePower(1)

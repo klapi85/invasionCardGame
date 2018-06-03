@@ -4,7 +4,7 @@ class Game(
         val id: Int,
         var isFinished: Boolean = false
 ) {
-    var table: Table = Table(24, 3,
+    var battlefield: TableBattlefield = TableBattlefield(24, 3,
         mutableListOf(
             Card("Red Goblin", 1, 1, 1)
         )
@@ -26,12 +26,12 @@ class Game(
     )
 
     fun tapTableCard(cardNumber: Int): Int {
-        this.table.tapCard(cardNumber)
+        this.battlefield.tapCard(cardNumber)
         return 1
     }
 
     fun untapTableCard(cardNumber: Int): Int {
-        this.table.untapCard(cardNumber)
+        this.battlefield.untapCard(cardNumber)
         return 1
     }
 
@@ -43,9 +43,9 @@ class Game(
     fun checkPutCardOnTable(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
-        if (cardCost <= this.table.resources) {
-            this.table.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.table.resources -= cardCost
+        if (cardCost <= this.battlefield.resources) {
+            this.battlefield.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
+            this.battlefield.resources -= cardCost
             return true
         } else {
             return false
@@ -55,9 +55,9 @@ class Game(
     fun checkPutCardOnTableKingdom(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
-        if (cardCost <= this.table.resources) {
+        if (cardCost <= this.battlefield.resources) {
             this.kingdom.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.table.resources -= cardCost
+            this.battlefield.resources -= cardCost
             return true
         } else {
             return false
@@ -66,7 +66,7 @@ class Game(
 
 
     fun checkTakeCardToHand(cardNumber: Int): Boolean {
-        this.hand.takeCardToHand(this.table.removeFromTable(cardNumber))
+        this.hand.takeCardToHand(this.battlefield.removeFromTable(cardNumber))
         return true
     }
 
