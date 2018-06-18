@@ -52,37 +52,54 @@ class GameRunner {
         return when (option) {
             "h" -> game.escapeGame(game) // TODO
             "q" -> game.escapeGame(game)
-            else -> throw IllegalArgumentException("Wrong Actions. For exit q")
+            else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }
     }
 
     private fun chooseTwoParamsMove(game: Game, options: List<String>) : Game {
         return when (options[0]) {
-            "u" -> makeUntapMove(game, options[1])
-            "t" -> makeTapMove(game, options[1])
             "i" -> makeIncreasePowerMove(game, options[1])
             "d" -> makeIncreaseDefenceMove(game, options[1])
-            else -> throw IllegalArgumentException("Actions: t,u,i,d space and number eg. t 2.")
+            else -> throw IllegalArgumentException("Wrong action with 2 params.")
         }
     }
 
     private fun chooseThreeParamsMove(game: Game, options: List<String>) : Game {
         return when (options[0]) {
+            "t" -> makeTapMove(game, options[1], options[2])
+            "u" -> makeUntapMove(game, options[1], options[2])
             "p" -> playCardFromHand(game, options[1], options[2])
             "h" -> takeCardToHand(game, options[1], options[2])
-            else -> throw IllegalArgumentException("Actions: p,h space and area [k,b]and number eg. t 2. For exit q 1")
+            else -> throw IllegalArgumentException("Wrong action with 3 params.")
         }
     }
 
-
-    private fun makeUntapMove(game: Game, cardNumber: String): Game {
-        game.untapTableCard(cardNumber.toInt())
-        return game
+    private fun makeTapMove(game: Game, areaName: String, cardNumber: String): Game {
+        return when (areaName) {
+            "b" -> {
+                game.battlefield.tapCard(cardNumber.toInt())
+                game
+            }
+            "k" -> {
+                game.kingdom.tapCard(cardNumber.toInt())
+                game
+            }
+            else -> throw IllegalArgumentException("Please use proper area to play card")
+        }
     }
 
-    private fun makeTapMove(game: Game, cardNumber: String): Game {
-        game.tapTableCard(cardNumber.toInt())
-        return game
+    private fun makeUntapMove(game: Game, areaName: String, cardNumber: String): Game {
+        return when (areaName) {
+            "b" -> {
+                game.battlefield.untapCard(cardNumber.toInt())
+                game
+            }
+            "k" -> {
+                game.kingdom.untapCard(cardNumber.toInt())
+                game
+            }
+            else -> throw IllegalArgumentException("Please use proper area to play card")
+        }
     }
 
     private fun makeIncreasePowerMove(game: Game, cardNumber: String): Game {
@@ -96,29 +113,29 @@ class GameRunner {
     }
 
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        when (areaName) {
+        return when (areaName) {
             "b" -> {
-                    game.checkPutCardOnTable(cardNumber.toInt())
-                    return game
-                   }
+                game.checkPutCardOnTable(cardNumber.toInt())
+                game
+            }
             "k" -> {
-                    game.checkPutCardOnTableKingdom(cardNumber.toInt())
-                    return game
-                   }
+                game.checkPutCardOnTableKingdom(cardNumber.toInt())
+                game
+            }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
 
     }
 
     private fun takeCardToHand(game: Game, areaName: String, cardNumber: String): Game {
-        when (areaName) {
+        return when (areaName) {
             "b" -> {
                 game.checkTakeCardToHand(cardNumber.toInt())
-                return game
+                game
             }
             "k" -> {
                 game.checkTakeCardFromKingdomToHand(cardNumber.toInt())
-                return game
+                game
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
