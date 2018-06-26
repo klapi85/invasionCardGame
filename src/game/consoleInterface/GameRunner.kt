@@ -42,7 +42,7 @@ class GameRunner {
     private fun chooseMove(game: Game, options: List<String>) : Game {
         return when (options.size) {
             1 -> chooseOneParamMove(game, options[0])
-            2 -> chooseTwoParamsMove(game, options)
+            // 2 -> chooseTwoParamsMove(game, options)
             3 -> chooseThreeParamsMove(game, options)
             else -> throw IllegalArgumentException("Actions: t,u,q,i,d,p,h space and number eg. t 2. For exit q 1")
         }
@@ -56,13 +56,11 @@ class GameRunner {
         }
     }
 
-    private fun chooseTwoParamsMove(game: Game, options: List<String>) : Game {
-        return when (options[0]) {
-            "i" -> makeIncreasePowerMove(game, options[1])
-            "d" -> makeIncreaseDefenceMove(game, options[1])
-            else -> throw IllegalArgumentException("Wrong action with 2 params.")
-        }
-    }
+    //private fun chooseTwoParamsMove(game: Game, options: List<String>) : Game {
+    //    return when (options[0]) {
+    //        else -> throw IllegalArgumentException("Wrong action with 2 params.")
+    //    }
+    //}
 
     private fun chooseThreeParamsMove(game: Game, options: List<String>) : Game {
         return when (options[0]) {
@@ -70,6 +68,8 @@ class GameRunner {
             "u" -> makeUntapMove(game, options[1], options[2])
             "p" -> playCardFromHand(game, options[1], options[2])
             "h" -> takeCardToHand(game, options[1], options[2])
+            "i" -> makeIncreasePowerMove(game, options[1], options[2])
+            "d" -> makeIncreaseDefenceMove(game, options[1], options[2])
             else -> throw IllegalArgumentException("Wrong action with 3 params.")
         }
     }
@@ -102,14 +102,32 @@ class GameRunner {
         }
     }
 
-    private fun makeIncreasePowerMove(game: Game, cardNumber: String): Game {
-        game.battlefield.increaseCardPower(cardNumber.toInt())
-        return game
+    private fun makeIncreasePowerMove(game: Game, areaName: String, cardNumber: String): Game {
+        return when (areaName) {
+            "b" -> {
+                game.battlefield.increaseCardPower(cardNumber.toInt())
+                game
+            }
+            "k" -> {
+                game.kingdom.increaseCardPower(cardNumber.toInt())
+                game
+            }
+            else -> throw IllegalArgumentException("Please use proper area to play card")
+        }
     }
 
-    private fun makeIncreaseDefenceMove(game: Game, cardNumber: String): Game {
-        game.battlefield.increaseCardDefence(cardNumber.toInt())
-        return game
+    private fun makeIncreaseDefenceMove(game: Game, areaName: String, cardNumber: String): Game {
+        return when (areaName) {
+            "b" -> {
+                game.battlefield.increaseCardDefence(cardNumber.toInt())
+                game
+            }
+            "k" -> {
+                game.kingdom.increaseCardDefence(cardNumber.toInt())
+                game
+            }
+            else -> throw IllegalArgumentException("Please use proper area to play card")
+        }
     }
 
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {

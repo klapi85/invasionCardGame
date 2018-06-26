@@ -25,16 +25,6 @@ class Game(
         )
     )
 
-    fun tapTableCard(cardNumber: Int): Int {
-        this.battlefield.tapCard(cardNumber)
-        return 1
-    }
-
-    fun untapTableCard(cardNumber: Int): Int {
-        this.battlefield.untapCard(cardNumber)
-        return 1
-    }
-
     fun escapeGame(game: Game): Game {
         game.isFinished = true
         return game
