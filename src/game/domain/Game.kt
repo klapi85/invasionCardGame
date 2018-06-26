@@ -1,19 +1,28 @@
 package game.domain
 
+import game.domain.areas.TableBattlefield
+import game.domain.areas.TableKingdom
+
 class Game(
         val id: Int,
         var isFinished: Boolean = false
 ) {
-    var battlefield: TableBattlefield = TableBattlefield(24, 3,
-        mutableListOf(
-            Card("Red Goblin", 1, 1, 1)
-        )
+    val battlefield: TableBattlefield = TableBattlefield( 3,
+            mutableListOf(
+                    Card("Red Goblin", 1, 1, 1)
+            )
     )
 
-    var kingdom: TableKingdom = TableKingdom(
-        mutableListOf(
-            Card("Blue Goblin", 1, 1, 1)
-        )
+    val kingdom: TableKingdom = TableKingdom(
+            mutableListOf(
+                    Card("Blue Goblin", 1, 1, 1)
+            )
+    )
+
+    val mission: TableKingdom = TableKingdom(
+            mutableListOf(
+                    Card("Pink Goblin", 1, 1, 1)
+            )
     )
 
     var hand: Hand = Hand(
@@ -30,7 +39,8 @@ class Game(
         return game
     }
 
-    fun checkPutCardOnTable(cardNumber: Int): Boolean {
+    // TODO: refactor 3 -> 1
+    fun checkPutCardOnTableBattlefield(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
         if (cardCost <= this.battlefield.resources) {
@@ -54,14 +64,29 @@ class Game(
         }
     }
 
+    fun checkPutCardOnTableMission(cardNumber: Int): Boolean {
+        val cardCost = this.hand.cards.get(cardNumber).cost
 
-    fun checkTakeCardToHand(cardNumber: Int): Boolean {
+        if (cardCost <= this.battlefield.resources) {
+            this.mission.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
+            this.battlefield.resources -= cardCost
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun checkTakeCardFromBattlefieldToHand(cardNumber: Int): Boolean {
         this.hand.takeCardToHand(this.battlefield.removeFromTable(cardNumber))
         return true
     }
 
     fun checkTakeCardFromKingdomToHand(cardNumber: Int): Boolean {
         this.hand.takeCardToHand(this.kingdom.removeFromTable(cardNumber))
+        return true
+    }
+    fun checkTakeCardFromMissionToHand(cardNumber: Int): Boolean {
+        this.hand.takeCardToHand(this.mission.removeFromTable(cardNumber))
         return true
     }
 }

@@ -1,4 +1,6 @@
-package game.domain
+package game.domain.areas
+
+import game.domain.Card
 
 abstract class Area()
 {

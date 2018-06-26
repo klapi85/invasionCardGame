@@ -13,6 +13,8 @@ class GameRunner {
         printer.printCards(game.battlefield.cards)
         println("Kingdom:")
         printer.printCards(game.kingdom.cards)
+        println("Mission:")
+        printer.printCards(game.mission.cards)
         println("Hand:")
         printer.printCards(game.hand.cards)
 
@@ -84,6 +86,10 @@ class GameRunner {
                 game.kingdom.tapCard(cardNumber.toInt())
                 game
             }
+            "m" -> {
+                game.mission.tapCard(cardNumber.toInt())
+                game
+            }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
     }
@@ -96,6 +102,10 @@ class GameRunner {
             }
             "k" -> {
                 game.kingdom.untapCard(cardNumber.toInt())
+                game
+            }
+            "m" -> {
+                game.mission.untapCard(cardNumber.toInt())
                 game
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
@@ -112,6 +122,10 @@ class GameRunner {
                 game.kingdom.increaseCardPower(cardNumber.toInt())
                 game
             }
+            "m" -> {
+                game.mission.increaseCardPower(cardNumber.toInt())
+                game
+            }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
     }
@@ -126,6 +140,10 @@ class GameRunner {
                 game.kingdom.increaseCardDefence(cardNumber.toInt())
                 game
             }
+            "m" -> {
+                game.mission.increaseCardDefence(cardNumber.toInt())
+                game
+            }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
     }
@@ -133,11 +151,15 @@ class GameRunner {
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
         return when (areaName) {
             "b" -> {
-                game.checkPutCardOnTable(cardNumber.toInt())
+                game.checkPutCardOnTableBattlefield(cardNumber.toInt())
                 game
             }
             "k" -> {
                 game.checkPutCardOnTableKingdom(cardNumber.toInt())
+                game
+            }
+            "m" -> {
+                game.checkPutCardOnTableMission(cardNumber.toInt())
                 game
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
@@ -148,11 +170,15 @@ class GameRunner {
     private fun takeCardToHand(game: Game, areaName: String, cardNumber: String): Game {
         return when (areaName) {
             "b" -> {
-                game.checkTakeCardToHand(cardNumber.toInt())
+                game.checkTakeCardFromBattlefieldToHand(cardNumber.toInt())
                 game
             }
             "k" -> {
                 game.checkTakeCardFromKingdomToHand(cardNumber.toInt())
+                game
+            }
+            "m" -> {
+                game.checkTakeCardFromMissionToHand(cardNumber.toInt())
                 game
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
