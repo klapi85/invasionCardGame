@@ -8,7 +8,8 @@ class GameRunner {
     private val printer : CardPrinter = CardPrinter()
 
     fun runGame(game: Game): String {
-        println("Resources left: " + game.battlefield.resources.toString())
+        println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
+        println("Resources left: " + game.kingdom.resources.toString())
         println("Battlefield:")
         printer.printCards(game.battlefield.cards)
         println("Kingdom:")
@@ -37,7 +38,7 @@ class GameRunner {
         return if (isValidAction(cells[0])) cells else waitForValidInput()
     }
 
-    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h", "l", "b").contains(input)
+    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h", "l", "b", "n").contains(input)
 
     private fun isValidNumber(input: String): Boolean = arrayOf("0", "1", "2").contains(input)
 
@@ -46,13 +47,14 @@ class GameRunner {
             1 -> chooseOneParamMove(game, options[0])
             // 2 -> chooseTwoParamsMove(game, options)
             3 -> chooseThreeParamsMove(game, options)
-            else -> throw IllegalArgumentException("Actions: t,u,q,i,d,p,h space and number eg. t 2. For exit q 1")
+            else -> throw IllegalArgumentException("Action not allowed.")
         }
     }
 
     private fun chooseOneParamMove(game: Game, option: String) : Game {
         return when (option) {
             "h" -> game.escapeGame(game) // TODO
+            "n" -> game.phase.nextPhase(game)
             "q" -> game.escapeGame(game)
             else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }

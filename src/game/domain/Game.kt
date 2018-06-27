@@ -2,12 +2,14 @@ package game.domain
 
 import game.domain.areas.TableBattlefield
 import game.domain.areas.TableKingdom
+import game.domain.areas.TableMission
 
 class Game(
         val id: Int,
-        var isFinished: Boolean = false
+        var isFinished: Boolean = false,
+        val phase: PhaseManager = PhaseManager()
 ) {
-    val battlefield: TableBattlefield = TableBattlefield( 3,
+    val battlefield: TableBattlefield = TableBattlefield(
             mutableListOf(
                     Card("Red Goblin", 1, 1, 1)
             )
@@ -19,7 +21,7 @@ class Game(
             )
     )
 
-    val mission: TableKingdom = TableKingdom(
+    val mission: TableMission = TableMission(
             mutableListOf(
                     Card("Pink Goblin", 1, 1, 1)
             )
@@ -43,9 +45,9 @@ class Game(
     fun checkPutCardOnTableBattlefield(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
-        if (cardCost <= this.battlefield.resources) {
+        if (cardCost <= this.kingdom.resources) {
             this.battlefield.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.battlefield.resources -= cardCost
+            this.kingdom.resources -= cardCost
             return true
         } else {
             return false
@@ -55,9 +57,9 @@ class Game(
     fun checkPutCardOnTableKingdom(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
-        if (cardCost <= this.battlefield.resources) {
+        if (cardCost <= this.kingdom.resources) {
             this.kingdom.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.battlefield.resources -= cardCost
+            this.kingdom.resources -= cardCost
             return true
         } else {
             return false
@@ -67,9 +69,9 @@ class Game(
     fun checkPutCardOnTableMission(cardNumber: Int): Boolean {
         val cardCost = this.hand.cards.get(cardNumber).cost
 
-        if (cardCost <= this.battlefield.resources) {
+        if (cardCost <= this.kingdom.resources) {
             this.mission.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.battlefield.resources -= cardCost
+            this.kingdom.resources -= cardCost
             return true
         } else {
             return false
