@@ -9,7 +9,7 @@ class CardPrinter() {
     }
 
     private fun getCards(cardSet: List<Card>?): String {
-        var result = ""
+        var result = "   "
 
         for (card in cardSet!!) {
             result += card.id + " " + card.status + " " +

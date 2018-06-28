@@ -10,13 +10,13 @@ class GameRunner {
     fun runGame(game: Game): String {
         println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
         println("Resources left: " + game.kingdom.resources.toString())
-        println("Battlefield:")
+        println("• Battlefield:")
         printer.printCards(game.battlefield.cards)
-        println("Kingdom:")
+        println("• Kingdom:")
         printer.printCards(game.kingdom.cards)
-        println("Mission:")
+        println("• Mission:")
         printer.printCards(game.mission.cards)
-        println("Hand:")
+        println("• Hand:")
         printer.printCards(game.hand.cards)
 
         return if (game.isFinished) {

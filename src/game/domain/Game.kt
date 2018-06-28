@@ -9,32 +9,18 @@ class Game(
         var isFinished: Boolean = false,
         val phase: PhaseManager = PhaseManager()
 ) {
-    val battlefield: TableBattlefield = TableBattlefield(
-            mutableListOf(
-                    Card("Red Goblin", 1, 1, 1)
-            )
-    )
+    val battlefield = TableBattlefield(mutableListOf())
+    val kingdom = TableKingdom(mutableListOf())
+    val mission = TableMission(mutableListOf())
+    val hand = Hand(mutableListOf())
+    val deck = Deck()
 
-    val kingdom: TableKingdom = TableKingdom(
-            mutableListOf(
-                    Card("Blue Goblin", 1, 1, 1)
-            )
-    )
-
-    val mission: TableMission = TableMission(
-            mutableListOf(
-                    Card("Pink Goblin", 1, 1, 1)
-            )
-    )
-
-    var hand: Hand = Hand(
-        mutableListOf(
-            Card("Dragon",5, 4, 5),
-            Card("Goblin", 1, 1, 1),
-            Card("Minotaur",2, 2, 2),
-            Card("Hydra", 3, 4, 3)
-        )
-    )
+    init {
+        //deck
+        this.hand.takeCardToHand(deck.removeFromDeck(0))
+        this.hand.takeCardToHand(deck.removeFromDeck(0))
+        this.hand.takeCardToHand(deck.removeFromDeck(0))
+    }
 
     fun escapeGame(game: Game): Game {
         game.isFinished = true
