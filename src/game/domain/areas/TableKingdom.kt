@@ -8,7 +8,7 @@ class TableKingdom(
     var resources: Int = 3
 
     fun addResources() {
-        // at the begining og your turn
-        this.resources += 5 // TODO: stub +5
+        // at the begining of your turn
+        this.resources = 3 + this.getAreaCardsStrength()
     }
 }

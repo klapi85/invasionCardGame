@@ -33,4 +33,8 @@ abstract class Area()
         this.cards[number].increaseDefence(1)
         return 1
     }
+
+    fun getAreaCardsStrength(): Int =
+            this.cards.sumBy { it.power }
+
 }
