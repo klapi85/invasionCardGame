@@ -6,6 +6,7 @@ import java.io.InputStreamReader
 
 class GameRunner {
     private val printer : CardPrinter = CardPrinter()
+    private val commands = listOf("q", "u", "t", "i", "d", "p", "h", "f", "n")
 
     fun runGame(game: Game): String {
         println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
@@ -40,9 +41,7 @@ class GameRunner {
         return if (isValidAction(cells[0])) cells else waitForValidInput()
     }
 
-    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h", "f", "b", "n").contains(input)
-
-    private fun isValidNumber(input: String): Boolean = arrayOf("0", "1", "2").contains(input)
+    private fun isValidAction(input: String): Boolean = commands.contains(input)
 
     private fun chooseMove(game: Game, options: List<String>) : Game {
         return when (options.size) {
@@ -55,11 +54,13 @@ class GameRunner {
 
     private fun chooseOneParamMove(game: Game, option: String) : Game {
         return when (option) {
-            "h" -> game.escapeGame(game) // TODO
-            "n" -> game.phase.nextPhase(game)
-            "f" -> { this.printer.printerVariant = PrinterType.FULL
-                    game
+            "h" -> { printHelp()
+                     game
                    }
+            "f" -> { this.printer.printerVariant = PrinterType.FULL
+                     game
+                   }
+            "n" -> game.phase.nextPhase(game)
             "q" -> game.escapeGame(game)
             else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }
@@ -70,6 +71,14 @@ class GameRunner {
     //        else -> throw IllegalArgumentException("Wrong action with 2 params.")
     //    }
     //}
+
+    private fun printHelp() {
+        println("HELP: Allowed commands are:")
+        println(commands)
+        println("eg. p k 1 means play first card in kingdom area")
+        println("Press q for quit")
+        println("- - - - - - - - - -")
+    }
 
     private fun chooseThreeParamsMove(game: Game, options: List<String>) : Game {
         return when (options[0]) {
