@@ -19,6 +19,8 @@ class GameRunner {
         println("• Hand:")
         printer.printCards(game.hand.cards)
 
+        printer.printerVariant = PrinterType.NORMAL
+
         return if (game.isFinished) {
             ""
         } else {
@@ -38,7 +40,7 @@ class GameRunner {
         return if (isValidAction(cells[0])) cells else waitForValidInput()
     }
 
-    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h", "l", "b", "n").contains(input)
+    private fun isValidAction(input: String): Boolean = arrayOf("q", "u", "t", "i", "d", "p", "h", "f", "b", "n").contains(input)
 
     private fun isValidNumber(input: String): Boolean = arrayOf("0", "1", "2").contains(input)
 
@@ -55,6 +57,9 @@ class GameRunner {
         return when (option) {
             "h" -> game.escapeGame(game) // TODO
             "n" -> game.phase.nextPhase(game)
+            "f" -> { this.printer.printerVariant = PrinterType.FULL
+                    game
+                   }
             "q" -> game.escapeGame(game)
             else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }

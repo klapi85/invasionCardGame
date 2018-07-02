@@ -3,9 +3,9 @@ package game.domain
 class Card(
         val id: String,
         val startingPower: Int = 0,
-        val startingDefence: Int = 0,
+        val startingDefence: Int = 100,
         val cost: Int = 1,
-        var status: CardStatus = CardStatus.UNTAPPED,
+        var status: CardStatus = CardStatus.UNDEF,
         val type: CardType = CardType.UNIT,
         var power: Int = 0,
         var defence: Int = 0
@@ -33,7 +33,7 @@ class Card(
 }
 
 enum class CardStatus {
-    TAPPED, UNTAPPED, ON_HAND, IN_DECK, REMOVED
+    TAPPED, UNTAPPED, UNDEF
 }
 
 enum class CardType {
