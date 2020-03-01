@@ -3,7 +3,7 @@ package game
 import game.consoleInterface.GameRunner
 import game.domain.Game
 
-fun main(args: Array<String>) {
+fun main() {
     val gameRunner = GameRunner()
     val game = Game(1)
 

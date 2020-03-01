@@ -22,7 +22,7 @@ class CardPrinter() {
     private fun printFullInfo(cardSet: List<Card>?) : String {
         var result = "   "
 
-        for (card in cardSet!!) {
+        cardSet?.forEach { card ->
             result += card.id + " " + card.status + " " +
                     card.type + " " +
                     card.power + "P(" + card.startingPower + "P) " +
@@ -35,7 +35,7 @@ class CardPrinter() {
     private fun printNormalInfo(cardSet: List<Card>?) : String {
         var result = "   "
 
-        for (card in cardSet!!) {
+        cardSet?.forEach { card ->
             result += printSpecialCardInfo(card)
         }
         return result
