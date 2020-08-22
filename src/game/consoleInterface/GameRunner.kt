@@ -4,29 +4,32 @@ import game.domain.Game
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class GameRunner {
+class GameRunner(var gameType: GameType) {
     private val printer : CardPrinter = CardPrinter()
     private val commands = listOf("q", "u", "t", "i", "d", "p", "h", "f", "n")
 
     fun runGame(game: Game): String {
-        println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
-        println("Resources left: " + game.kingdom.resources.toString())
-        println("• Battlefield: (" + game.battlefield.getAreaCardsStrength().toString() + ")" )
-        printer.printCards(game.battlefield.cards)
-        println("• Kingdom: (3 + " + game.kingdom.getAreaCardsStrength().toString() + ")" )
-        printer.printCards(game.kingdom.cards)
-        println("• Mission: (1 + " + game.mission.getAreaCardsStrength().toString() + ")" )
-        printer.printCards(game.mission.cards)
-        println("• Hand:")
-        printer.printCards(game.hand.cards)
+        if (gameType == GameType.INTERACTIVE ) {
+            println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
+            println("Resources left: " + game.kingdom.resources.toString())
+            println("• Battlefield: (" + game.battlefield.getAreaCardsStrength().toString() + ")")
+            printer.printCards(game.battlefield.cards)
+            println("• Kingdom: (3 + " + game.kingdom.getAreaCardsStrength().toString() + ")")
+            printer.printCards(game.kingdom.cards)
+            println("• Mission: (1 + " + game.mission.getAreaCardsStrength().toString() + ")")
+            printer.printCards(game.mission.cards)
+            println("• Hand:")
+            printer.printCards(game.hand.cards)
 
-        printer.printerVariant = PrinterType.NORMAL
+            printer.printerVariant = PrinterType.NORMAL
 
-        return if (game.isFinished) {
-            ""
-        } else {
-            runGame(chooseMove(game, waitForValidInput()))
+            return if (game.isFinished) {
+                ""
+            } else {
+                runGame(chooseMove(game, waitForValidInput()))
+            }
         }
+        return ""
     }
 
     private fun waitForInput(): String {
@@ -167,15 +170,15 @@ class GameRunner {
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
         return when (areaName) {
             "b" -> {
-                game.checkPutCardOnTableBattlefield(cardNumber.toInt())
+                game.checkPutCardOnTable(cardNumber.toInt(), game.battlefield)
                 game
             }
             "k" -> {
-                game.checkPutCardOnTableKingdom(cardNumber.toInt())
+                game.checkPutCardOnTable(cardNumber.toInt(), game.kingdom)
                 game
             }
             "m" -> {
-                game.checkPutCardOnTableMission(cardNumber.toInt())
+                game.checkPutCardOnTable(cardNumber.toInt(), game.mission)
                 game
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
@@ -200,4 +203,8 @@ class GameRunner {
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
     }
+}
+
+enum class GameType {
+    INTERACTIVE, SILENT
 }
