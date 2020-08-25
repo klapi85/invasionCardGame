@@ -25,7 +25,7 @@ class PhaseManager (
 
     private fun finishEndPhase(game: Game): Game {
         this.currentPhase = PhaseType.START
-        game.kingdom.addResources()
+        game.resources = 3 + game.kingdom.getAreaCardsStrength()
 
         for (i in 1..(1 + game.mission.getAreaCardsStrength() ) ) {
             game.hand.takeCardToHand(game.deck.removeFromDeck(0))

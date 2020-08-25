@@ -15,6 +15,7 @@ class Game(
     val kingdom = TableKingdom(mutableListOf())
     val mission = TableMission(mutableListOf())
     val hand = Hand(mutableListOf())
+    var resources: Int = 3
 
     init {
         //deck
@@ -30,10 +31,9 @@ class Game(
 
     fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): Boolean {
         val cardCost = this.hand.cards[cardNumber].cost
-        // TODO: resources should be placed in game, not in kingdom
-        return if (cardCost <= this.kingdom.resources) {
+        return if (cardCost <= this.resources) {
             tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
-            this.kingdom.resources -= cardCost
+            this.resources -= cardCost
             true
         } else {
             false

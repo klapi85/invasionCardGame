@@ -11,7 +11,7 @@ class GameRunner(var gameType: GameType) {
     fun runGame(game: Game): String {
         if (gameType == GameType.INTERACTIVE ) {
             println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
-            println("Resources left: " + game.kingdom.resources.toString())
+            println("Resources left: " + game.resources.toString())
             println("• Battlefield: (" + game.battlefield.getAreaCardsStrength().toString() + ")")
             printer.printCards(game.battlefield.cards)
             println("• Kingdom: (3 + " + game.kingdom.getAreaCardsStrength().toString() + ")")
