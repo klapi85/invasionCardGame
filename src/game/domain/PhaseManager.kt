@@ -4,6 +4,8 @@ class PhaseManager (
         var turnNumber: Int = 1,
         var currentPhase: PhaseType = PhaseType.START
 ) {
+    var isOncePerTurnLimitUsed = false
+
     fun nextPhase(game: Game): Game {
         return when (this.currentPhase) {
             PhaseType.START -> finishStartPhase(game)
@@ -25,12 +27,13 @@ class PhaseManager (
 
     private fun finishEndPhase(game: Game): Game {
         this.currentPhase = PhaseType.START
-        game.resources = 3 + game.kingdom.getAreaCardsStrength()
+        game.resources = 3 + game.kingdom.getAreaCardsPower()
 
-        for (i in 1..(1 + game.mission.getAreaCardsStrength() ) ) {
+        for (i in 1..(1 + game.mission.getAreaCardsPower() ) ) {
             game.hand.takeCardToHand(game.deck.removeFromDeck(0))
         }
         this.turnNumber++
+        this.isOncePerTurnLimitUsed = false
         return game
     }
 }

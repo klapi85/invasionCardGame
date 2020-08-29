@@ -1,13 +1,15 @@
 package game.domain.areas
 
 import game.domain.Card
+import game.domain.Game
 
 abstract class Area()
 {
     abstract var cards: MutableList<Card>
 
-    fun putNewCardOnTable(newCard: Card): Boolean {
+    fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
         this.cards.add(newCard)
+        if (newCard.isOncePerTurnLimited) game.phase.isOncePerTurnLimitUsed = true
         return true
     }
 
@@ -34,7 +36,7 @@ abstract class Area()
         return 1
     }
 
-    fun getAreaCardsStrength(): Int =
+    fun getAreaCardsPower(): Int =
             this.cards.sumBy { it.power }
 
 }

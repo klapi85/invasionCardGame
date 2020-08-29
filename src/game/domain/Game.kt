@@ -31,8 +31,8 @@ class Game(
 
     fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): Boolean {
         val cardCost = this.hand.cards[cardNumber].cost
-        return if (cardCost <= this.resources) {
-            tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber))
+        return if (cardCost <= this.resources && !phase.isOncePerTurnLimitUsed) {
+            tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber), this)
             this.resources -= cardCost
             true
         } else {

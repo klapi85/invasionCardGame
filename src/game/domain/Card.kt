@@ -8,7 +8,8 @@ class Card(
         var status: CardStatus = CardStatus.UNDEF,
         val type: CardType = CardType.UNIT,
         var power: Int = 0,
-        var defence: Int = 0
+        var defence: Int = 0,
+        val isOncePerTurnLimited: Boolean = false
 ) {
     init {
         this.power = this.startingPower
