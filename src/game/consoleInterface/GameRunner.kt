@@ -106,127 +106,50 @@ class GameRunner(var gameType: GameType) {
     }
 
     private fun makeTapMove(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.battlefield.tapCard(cardNumber.toInt())
-                game
-            }
-            "k" -> {
-                game.kingdom.tapCard(cardNumber.toInt())
-                game
-            }
-            "m" -> {
-                game.mission.tapCard(cardNumber.toInt())
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
+        chooseAreaByShortcut(areaName, game).tapCard(cardNumber.toInt())
+        return game
     }
 
     private fun makeUntapMove(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.battlefield.untapCard(cardNumber.toInt())
-                game
-            }
-            "k" -> {
-                game.kingdom.untapCard(cardNumber.toInt())
-                game
-            }
-            "m" -> {
-                game.mission.untapCard(cardNumber.toInt())
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
+        chooseAreaByShortcut(areaName, game).untapCard(cardNumber.toInt())
+        return game
     }
 
     private fun makeIncreasePowerMove(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.battlefield.increaseCardPower(cardNumber.toInt())
-                game
-            }
-            "k" -> {
-                game.kingdom.increaseCardPower(cardNumber.toInt())
-                game
-            }
-            "m" -> {
-                game.mission.increaseCardPower(cardNumber.toInt())
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
+        chooseAreaByShortcut(areaName, game).increaseCardPower(cardNumber.toInt())
+        return game
     }
 
     private fun makeIncreaseDefenceMove(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.battlefield.increaseCardDefence(cardNumber.toInt())
-                game
-            }
-            "k" -> {
-                game.kingdom.increaseCardDefence(cardNumber.toInt())
-                game
-            }
-            "m" -> {
-                game.mission.increaseCardDefence(cardNumber.toInt())
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
+        chooseAreaByShortcut(areaName, game).increaseCardDefence(cardNumber.toInt())
+        return game
     }
 
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.checkPutCardOnTable(cardNumber.toInt(), game.battlefield)
-                game
-            }
-            "k" -> {
-                game.checkPutCardOnTable(cardNumber.toInt(), game.kingdom)
-                game
-            }
-            "m" -> {
-                game.checkPutCardOnTable(cardNumber.toInt(), game.mission)
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
-
+        game.checkPutCardOnTable(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        return game
     }
 
     private fun takeCardToHand(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
-            "b" -> {
-                game.checkTakeCardFromBattlefieldToHand(cardNumber.toInt())
-                game
-            }
-            "k" -> {
-                game.checkTakeCardFromKingdomToHand(cardNumber.toInt())
-                game
-            }
-            "m" -> {
-                game.checkTakeCardFromMissionToHand(cardNumber.toInt())
-                game
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
+        game.checkTakeCardFromAreaToHand(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        return game
     }
 
     private fun putDevelopmentFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        return when (areaName) {
+        game.checkAddNewDevelopment(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        return game
+    }
+
+    private fun chooseAreaByShortcut(areaShortcut: String, game: Game) : Area {
+        return when (areaShortcut) {
             "b" -> {
-                game.checkAddNewDevelopment(cardNumber.toInt(), game.battlefield)
-                game
+                game.battlefield
             }
             "k" -> {
-                game.checkAddNewDevelopment(cardNumber.toInt(), game.kingdom)
-                game
+                game.kingdom
             }
             "m" -> {
-                game.checkAddNewDevelopment(cardNumber.toInt(), game.mission)
-                game
+                game.mission
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }

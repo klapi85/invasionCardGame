@@ -49,17 +49,8 @@ class Game(
         }
     }
 
-    fun checkTakeCardFromBattlefieldToHand(cardNumber: Int): Boolean {
-        this.hand.takeCardToHand(this.battlefield.removeFromTable(cardNumber))
-        return true
-    }
-
-    fun checkTakeCardFromKingdomToHand(cardNumber: Int): Boolean {
-        this.hand.takeCardToHand(this.kingdom.removeFromTable(cardNumber))
-        return true
-    }
-    fun checkTakeCardFromMissionToHand(cardNumber: Int): Boolean {
-        this.hand.takeCardToHand(this.mission.removeFromTable(cardNumber))
+    fun checkTakeCardFromAreaToHand(cardNumber: Int, tableArea: Area): Boolean {
+        hand.takeCardToHand(tableArea.removeFromTable(cardNumber))
         return true
     }
 }
