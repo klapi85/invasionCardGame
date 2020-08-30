@@ -7,6 +7,8 @@ abstract class Area()
 {
     abstract var cards: MutableList<Card>
     abstract var developments: MutableList<Card>
+    abstract val areaName: String
+    abstract val turnBonus: String
 
     fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
         this.cards.add(newCard)

@@ -14,14 +14,7 @@ class GameRunner(var gameType: GameType) {
             println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
             println("Resources left: " + game.resources.toString())
 
-            println("• Battlefield: (" + printAreaInfo(game.battlefield))
-            printer.printCards(game.battlefield.cards)
-
-            println("• Kingdom: (3 + " + printAreaInfo(game.kingdom))
-            printer.printCards(game.kingdom.cards)
-
-            println("• Mission: (1 + " + printAreaInfo(game.mission))
-            printer.printCards(game.mission.cards)
+            listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
 
             println("• Hand:")
             printer.printCards(game.hand.cards)
@@ -37,8 +30,9 @@ class GameRunner(var gameType: GameType) {
         return ""
     }
 
-    private fun printAreaInfo(area: Area): String {
-        return area.getAreaCardsPower().toString() + ") " + area.getDevelopmentsCounter().toString() + "D"
+    private fun printAreaInfo(area: Area) {
+        println("• " + area.areaName + ": (" + area.turnBonus + " + " + area.getAreaCardsPower().toString() + ") " + area.getDevelopmentsCounter().toString() + "D")
+        printer.printCards(area.cards)
     }
 
     private fun waitForInput(): String {
