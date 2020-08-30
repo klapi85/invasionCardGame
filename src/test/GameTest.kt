@@ -55,7 +55,43 @@ class GameTest {
 
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+
+        //when
+       gameRunner.runGame(game)
+
+        //then
+        assertEquals(3, game.hand.cards.size)
+        assertEquals(0, game.kingdom.getDevelopmentsCounter())
+
+        //when
+        game.checkAddNewDevelopment(0, game.kingdom)
+
+        //then
+        assertEquals(2, game.hand.cards.size)
+        assertEquals(1, game.kingdom.getDevelopmentsCounter())
+
+        //when
+        game.checkAddNewDevelopment(0, game.kingdom)
+
+        //then
+        assertEquals(2, game.hand.cards.size)
+        assertEquals(1, game.kingdom.getDevelopmentsCounter())
+
+    }
+
+    @Test
+    fun isDevelopmentLimitedOncePerTurn() {
+        //given
+        val gameRunner = GameRunner(GameType.SILENT)
+
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT),
                         Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
                         Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true)
                 )

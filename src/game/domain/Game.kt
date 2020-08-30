@@ -11,9 +11,9 @@ class Game(
         val phase: PhaseManager = PhaseManager(),
         val deck: Deck = Deck()
 ) {
-    val battlefield = TableBattlefield(mutableListOf())
-    val kingdom = TableKingdom(mutableListOf())
-    val mission = TableMission(mutableListOf())
+    val battlefield = TableBattlefield(mutableListOf(), mutableListOf())
+    val kingdom = TableKingdom(mutableListOf(), mutableListOf())
+    val mission = TableMission(mutableListOf(), mutableListOf())
     val hand = Hand(mutableListOf())
     var resources: Int = 3
 
@@ -34,6 +34,15 @@ class Game(
         return if (cardCost <= this.resources && !phase.isOncePerTurnLimitUsed) {
             tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber), this)
             this.resources -= cardCost
+            true
+        } else {
+            false
+        }
+    }
+
+    fun checkAddNewDevelopment(cardNumber: Int, tableArea: Area): Boolean {
+        return if (!phase.isDevelopmentAdded) {
+            tableArea.addNewDevelopment(this.hand.removeFromHand(cardNumber), this)
             true
         } else {
             false

@@ -5,6 +5,7 @@ class PhaseManager (
         var currentPhase: PhaseType = PhaseType.START
 ) {
     var isOncePerTurnLimitUsed = false
+    var isDevelopmentAdded = false
 
     fun nextPhase(game: Game): Game {
         return when (this.currentPhase) {
@@ -34,6 +35,7 @@ class PhaseManager (
         }
         this.turnNumber++
         this.isOncePerTurnLimitUsed = false
+        this.isDevelopmentAdded = false
         return game
     }
 }

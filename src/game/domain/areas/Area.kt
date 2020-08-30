@@ -6,6 +6,7 @@ import game.domain.Game
 abstract class Area()
 {
     abstract var cards: MutableList<Card>
+    abstract var developments: MutableList<Card>
 
     fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
         this.cards.add(newCard)
@@ -15,6 +16,12 @@ abstract class Area()
 
     fun removeFromTable(number: Int): Card =
             this.cards.removeAt(number)
+
+    fun addNewDevelopment(newCard: Card, game: Game): Boolean {
+        this.developments.add(newCard)
+        game.phase.isDevelopmentAdded = true
+        return true
+    }
 
     fun tapCard(number: Int): Int {
         this.cards[number].tap()
@@ -39,4 +46,6 @@ abstract class Area()
     fun getAreaCardsPower(): Int =
             this.cards.sumBy { it.power }
 
+    fun getDevelopmentsCounter(): Int =
+            this.developments.size
 }

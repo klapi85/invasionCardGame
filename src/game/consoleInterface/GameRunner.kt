@@ -1,6 +1,7 @@
 package game.consoleInterface
 
 import game.domain.Game
+import game.domain.areas.Area
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -12,12 +13,16 @@ class GameRunner(var gameType: GameType) {
         if (gameType == GameType.INTERACTIVE ) {
             println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
             println("Resources left: " + game.resources.toString())
-            println("• Battlefield: (" + game.battlefield.getAreaCardsPower().toString() + ")")
+
+            println("• Battlefield: (" + printAreaInfo(game.battlefield))
             printer.printCards(game.battlefield.cards)
-            println("• Kingdom: (3 + " + game.kingdom.getAreaCardsPower().toString() + ")")
+
+            println("• Kingdom: (3 + " + printAreaInfo(game.kingdom))
             printer.printCards(game.kingdom.cards)
-            println("• Mission: (1 + " + game.mission.getAreaCardsPower().toString() + ")")
+
+            println("• Mission: (1 + " + printAreaInfo(game.mission))
             printer.printCards(game.mission.cards)
+
             println("• Hand:")
             printer.printCards(game.hand.cards)
 
@@ -30,6 +35,10 @@ class GameRunner(var gameType: GameType) {
             }
         }
         return ""
+    }
+
+    private fun printAreaInfo(area: Area): String {
+        return area.getAreaCardsPower().toString() + ") " + area.getDevelopmentsCounter().toString() + "D"
     }
 
     private fun waitForInput(): String {
@@ -90,7 +99,8 @@ class GameRunner(var gameType: GameType) {
             "p" -> playCardFromHand(game, options[1], options[2])
             "h" -> takeCardToHand(game, options[1], options[2])
             "i" -> makeIncreasePowerMove(game, options[1], options[2])
-            "d" -> makeIncreaseDefenceMove(game, options[1], options[2])
+            "o" -> makeIncreaseDefenceMove(game, options[1], options[2])
+            "d" -> putDevelopmentFromHand(game, options[1], options[2])
             else -> throw IllegalArgumentException("Wrong action with 3 params.")
         }
     }
@@ -203,7 +213,26 @@ class GameRunner(var gameType: GameType) {
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }
     }
+
+    private fun putDevelopmentFromHand(game: Game, areaName: String, cardNumber: String): Game {
+        return when (areaName) {
+            "b" -> {
+                game.checkAddNewDevelopment(cardNumber.toInt(), game.battlefield)
+                game
+            }
+            "k" -> {
+                game.checkAddNewDevelopment(cardNumber.toInt(), game.kingdom)
+                game
+            }
+            "m" -> {
+                game.checkAddNewDevelopment(cardNumber.toInt(), game.mission)
+                game
+            }
+            else -> throw IllegalArgumentException("Please use proper area to play card")
+        }
+    }
 }
+
 
 enum class GameType {
     INTERACTIVE, SILENT
