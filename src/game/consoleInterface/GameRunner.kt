@@ -1,7 +1,8 @@
 package game.consoleInterface
 
+import game.domain.Card
 import game.domain.Game
-import game.domain.areas.Area
+import game.domain.Pile
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -14,10 +15,21 @@ class GameRunner(var gameType: GameType) {
             println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
             println("Resources left: " + game.resources.toString())
 
-            listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
+            println(" ┌──────┬──────┬──────┬──────┐")
+            printBoardInfo(game.board.cards[0])
+            println(" │      │      │      │      │")
+            println(" ├──────┼──────┼──────┼──────┤")
+            printBoardInfo(game.board.cards[1])
+            println(" │      │      │      │      │")
+            println(" ├──────┼──────┼──────┼──────┤")
+            printBoardInfo(game.board.cards[2])
+            println(" │      │      │      │      │")
+            println(" ├──────┼──────┼──────┼──────┤")
+            printBoardInfo(game.board.cards[3])
+            println(" │      │      │      │      │")
+            println(" └──────┴──────┴──────┴──────┘")
 
-            println("• Hand:")
-            printer.printCards(game.hand.cards)
+            game.piles.forEach{ printPileInfo(it) }
 
             printer.printerVariant = PrinterType.NORMAL
 
@@ -30,9 +42,12 @@ class GameRunner(var gameType: GameType) {
         return ""
     }
 
-    private fun printAreaInfo(area: Area) {
-        println("• " + area.areaName + ": (" + area.turnBonus + " + " + area.getAreaCardsPower().toString() + ") " + area.getDevelopmentsCounter().toString() + "D")
-        printer.printCards(area.cards)
+    private fun printBoardInfo(cardArray: Array<Card?>) {
+        printer.printCards(cardArray)
+    }
+
+    private fun printPileInfo(pile: Pile) {
+        println("• " + pile.cards[0].id )
     }
 
     private fun waitForInput(): String {
@@ -81,75 +96,23 @@ class GameRunner(var gameType: GameType) {
     private fun printHelp() {
         println("HELP: Allowed commands are:")
         println(commands)
-        println("eg. p k 1 means play first card in kingdom area")
+        println("eg. p 1 1 means play first card")
         println("Press q for quit")
         println("- - - - - - - - - -")
     }
 
     private fun chooseThreeParamsMove(game: Game, options: List<String>) : Game {
         return when (options[0]) {
-            "t" -> makeTapMove(game, options[1], options[2])
-            "u" -> makeUntapMove(game, options[1], options[2])
             "p" -> playCardFromHand(game, options[1], options[2])
-            "h" -> takeCardToHand(game, options[1], options[2])
-            "i" -> makeIncreasePowerMove(game, options[1], options[2])
-            "o" -> makeIncreaseDefenceMove(game, options[1], options[2])
-            "d" -> putDevelopmentFromHand(game, options[1], options[2])
             else -> throw IllegalArgumentException("Wrong action with 3 params.")
         }
     }
 
-    private fun makeTapMove(game: Game, areaName: String, cardNumber: String): Game {
-        chooseAreaByShortcut(areaName, game).tapCard(cardNumber.toInt())
-        return game
-    }
-
-    private fun makeUntapMove(game: Game, areaName: String, cardNumber: String): Game {
-        chooseAreaByShortcut(areaName, game).untapCard(cardNumber.toInt())
-        return game
-    }
-
-    private fun makeIncreasePowerMove(game: Game, areaName: String, cardNumber: String): Game {
-        chooseAreaByShortcut(areaName, game).increaseCardPower(cardNumber.toInt())
-        return game
-    }
-
-    private fun makeIncreaseDefenceMove(game: Game, areaName: String, cardNumber: String): Game {
-        chooseAreaByShortcut(areaName, game).increaseCardDefence(cardNumber.toInt())
-        return game
-    }
-
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        game.checkPutCardOnTable(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        game.checkPutCardOnBoard(areaName.toInt(), cardNumber.toInt(), cardNumber.toInt())
         return game
-    }
-
-    private fun takeCardToHand(game: Game, areaName: String, cardNumber: String): Game {
-        game.checkTakeCardFromAreaToHand(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
-        return game
-    }
-
-    private fun putDevelopmentFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        game.checkAddNewDevelopment(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
-        return game
-    }
-
-    private fun chooseAreaByShortcut(areaShortcut: String, game: Game) : Area {
-        return when (areaShortcut) {
-            "b" -> {
-                game.battlefield
-            }
-            "k" -> {
-                game.kingdom
-            }
-            "m" -> {
-                game.mission
-            }
-            else -> throw IllegalArgumentException("Please use proper area to play card")
-        }
     }
 }
-
 
 enum class GameType {
     INTERACTIVE, SILENT

@@ -28,11 +28,6 @@ class PhaseManager (
 
     private fun finishEndPhase(game: Game): Game {
         this.currentPhase = PhaseType.START
-        game.resources = 3 + game.kingdom.getAreaCardsPower()
-
-        for (i in 1..(1 + game.mission.getAreaCardsPower() ) ) {
-            game.hand.takeCardToHand(game.deck.removeFromDeck(0))
-        }
         this.turnNumber++
         this.isOncePerTurnLimitUsed = false
         this.isDevelopmentAdded = false

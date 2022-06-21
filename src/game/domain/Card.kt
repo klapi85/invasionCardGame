@@ -7,13 +7,10 @@ class Card(
         val cost: Int = 1,
         var status: CardStatus = CardStatus.UNDEF,
         val type: CardType = CardType.UNIT,
-        var power: Int = 0,
-        var defence: Int = 0,
         val isOncePerTurnLimited: Boolean = false
 ) {
     init {
-        this.power = this.startingPower
-        this.defence = this.startingDefence
+
     }
 
     fun tap() {
@@ -24,13 +21,6 @@ class Card(
         this.status = CardStatus.UNTAPPED
     }
 
-    fun increasePower(howMany: Int) {
-        this.power += howMany
-    }
-
-    fun increaseDefence(howMany: Int) {
-        this.defence += howMany
-    }
 }
 
 enum class CardStatus {
