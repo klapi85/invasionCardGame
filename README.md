@@ -29,3 +29,25 @@ Commands:
 - game turns
 - fights
 - tactics cards
+
+## Launching
+
+`kotlinc $(find src/game -name '*.kt') -include-runtime -d invasion.jar`
+
+`java -jar invasion.jar`
+
+You should see the start of the game:
+```
+Start:
+Turn: 1 phase: START
+Resources left: 3
+• Battlefield: ( + 0) 0D
+
+• Mission: (1 + 0) 0D
+
+• Kingdom: (3 + 0) 0D
+
+• Hand:
+   Minotaur _ UNIT 2P 2D 2$ | Sanctuary _ SUPPORT 1P 1$ | Minotaur _ UNIT 2P 2D 2$ |
+Your move? (h for help)
+```
