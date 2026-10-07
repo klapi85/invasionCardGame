@@ -1,21 +1,22 @@
 # invasionCardGame
-Card game inspired with Warhammer: Invasion.
+Card game inspired by the collectible card game [Warhammer: Invasion](https://en.wikipedia.org/wiki/Warhammer:_Invasion) relesed from 2009 to 2013.
 
 It's a duel card game where one player tries to defeat another one.
 Original game is vast complicated and every single card can add new rules.
 This project is just a simple demo of this and shows possibility of the full game.
-It aims to promote Warhammer: Invasion.
 
-Status: Work in progress.
+This project aims to promote Warhammer: Invasion with just a small set of cards implemented.
+
+Status: Early Work in progress.
 
 ## Interface
 
 After lauching the game a command line interpreter is available.
 
 Commands:
-- play first card from hand to kingdom area: p k 0
-- play second card from hand to battlefield area: p b 1
-- quit: q
+- play first card from hand to kingdom area: `p k 0`
+- play second card from hand to battlefield area: `p b 1`
+- quit: `q`
 
 ## Features
 - cards can be tapped and untapped
@@ -23,6 +24,7 @@ Commands:
 - putting cards on table areas from hand
 - taking card to hand from table areas
 - zones on the table: Battlefield, Kingdom, Mission
+- development cards can be put on the table (starting with 0D)
 - quit game
 
 ## Todo
