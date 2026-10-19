@@ -31,6 +31,7 @@ class PhaseManager (
         game.resources = 3 + game.kingdom.getAreaCardsPower()
 
         for (i in 1..(1 + game.mission.getAreaCardsPower() ) ) {
+            if (game.deck.cards.isEmpty()) break
             game.hand.takeCardToHand(game.deck.removeFromDeck(0))
         }
         this.turnNumber++
