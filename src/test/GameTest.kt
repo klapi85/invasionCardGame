@@ -91,7 +91,7 @@ class GameTest {
 
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT),
+                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
                         Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
                         Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true)
                 )
