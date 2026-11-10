@@ -30,7 +30,7 @@ Commands:
 ## Todo
 - game turns
 - fights
-- tactics cards
+- tactics cards (in progress)
 
 ## Launching
 

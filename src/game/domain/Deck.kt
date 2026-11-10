@@ -16,7 +16,8 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             Card("Black Dragon", 6, 4, 5),
             Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
             Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
-            Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true)
+            Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+            Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true)
         )
 
     init {

@@ -113,4 +113,29 @@ class GameTest {
         assertEquals(2, game.hand.cards.size)
 
     }
+
+    @Test
+    fun tacticsCardShouldNotBePlacedOnTable() {
+        //given
+        val gameRunner = GameRunner(GameType.SILENT)
+
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true),
+                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true),
+                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+
+        assertEquals(3, game.hand.cards.size)
+
+        //when
+        gameRunner.runGame(game)
+        game.checkPutCardOnTable(1, game.kingdom)
+
+        //then
+        assertEquals(2, game.hand.cards.size)
+        assertEquals(0, game.kingdom.cards.size)
+
+    }
 }
