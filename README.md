@@ -34,6 +34,20 @@ Commands:
 
 ## Launching
 
+With Gradle (no Kotlin compiler install needed):
+
+`./gradlew run -q --console=plain`
+
+or build a runnable jar and start it:
+
+`./gradlew build`
+
+`java -jar build/libs/invasion.jar`
+
+Run the tests with `./gradlew test`.
+
+Without Gradle:
+
 `kotlinc $(find src/game -name '*.kt') -include-runtime -d invasion.jar`
 
 `java -jar invasion.jar`

@@ -1,6 +1,7 @@
 package game.domain.areas
 
 import game.domain.Card
+import game.domain.CardType
 import game.domain.Game
 
 abstract class Area()
@@ -14,7 +15,7 @@ abstract class Area()
         //if newCard.hasOnEnterEffect //TODO: implement on enter effect
 
         // TACTIC cards should not be placed on the table
-        if newCard.CardType == game.domain.CardType.TACTIC {
+        if (newCard.type == CardType.TACTIC) {
             return false
         }
 

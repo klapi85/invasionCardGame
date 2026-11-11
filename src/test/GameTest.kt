@@ -138,4 +138,25 @@ class GameTest {
         assertEquals(0, game.kingdom.cards.size)
 
     }
+
+    @Test
+    fun endPhaseShouldNotDrawFromEmptyDeck() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+
+        assertEquals(0, game.deck.cards.size)
+
+        //when
+        repeat(3) { game.phase.nextPhase(game) }
+
+        //then
+        assertEquals(2, game.phase.turnNumber)
+        assertEquals(3, game.hand.cards.size)
+    }
 }
