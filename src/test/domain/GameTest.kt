@@ -4,6 +4,7 @@ import game.domain.Card
 import game.domain.CardType
 import game.domain.Deck
 import game.domain.Game
+import game.domain.cards.LongWinter
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -122,9 +123,9 @@ class GameTest {
         //given
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
-                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true),
-                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true),
-                        Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true)
+                        LongWinter(),
+                        LongWinter(),
+                        LongWinter()
                 )
         val game = Game(1, deck = Deck(simpleDeck))
 

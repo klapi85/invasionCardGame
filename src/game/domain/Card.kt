@@ -1,6 +1,6 @@
 package game.domain
 
-class Card(
+open class Card(
         val id: String,
         val startingPower: Int = 0,
         val startingDefence: Int = 100,
@@ -9,8 +9,7 @@ class Card(
         val type: CardType = CardType.UNIT,
         var power: Int = 0,
         var defence: Int = 0,
-        val isOncePerTurnLimited: Boolean = false,
-        val hasOnEnterEffect: Boolean = false
+        val isOncePerTurnLimited: Boolean = false
 ) {
     init {
         this.power = this.startingPower
@@ -32,6 +31,9 @@ class Card(
     fun increaseDefence(howMany: Int) {
         this.defence += howMany
     }
+
+    // Called when the card is played; cards with special effects (e.g. tactics in game.domain.cards) override it
+    open fun onEnter(game: Game) {}
 }
 
 enum class CardStatus {

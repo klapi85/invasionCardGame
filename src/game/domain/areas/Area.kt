@@ -12,7 +12,7 @@ abstract class Area()
     abstract val turnBonus: String
 
     fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
-        //if newCard.hasOnEnterEffect //TODO: implement on enter effect
+        newCard.onEnter(game)
 
         // TACTIC cards should not be placed on the table
         if (newCard.type == CardType.TACTIC) {

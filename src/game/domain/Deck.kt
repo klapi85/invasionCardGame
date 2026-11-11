@@ -1,5 +1,7 @@
 package game.domain
 
+import game.domain.cards.LongWinter
+
 class Deck(var cards: MutableList<Card> = arrayListOf()
 ) {
     var exampleDeck: MutableList<Card> =
@@ -17,7 +19,7 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
             Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
             Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
-            Card("Glorious Strength", 1, cost = 1, type = CardType.TACTIC, hasOnEnterEffect = true)
+            LongWinter()
         )
 
     init {
