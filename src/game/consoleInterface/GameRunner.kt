@@ -5,29 +5,51 @@ import game.domain.areas.Area
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class GameRunner(var gameType: GameType) {
+class GameRunner(
+    var gameType: GameType,
+    private val input: BufferedReader = BufferedReader(InputStreamReader(System.`in`))
+) {
     private val printer : CardPrinter = CardPrinter()
     private val commands = listOf("q", "u", "t", "i", "d", "p", "h", "f", "n")
 
     fun runGame(game: Game): String {
         if (gameType == GameType.INTERACTIVE ) {
-            println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
-            println("Resources left: " + game.resources.toString())
-
-            listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
-
-            println("• Hand:")
-            printer.printCards(game.hand.cards)
-
-            printer.printerVariant = PrinterType.NORMAL
-
-            return if (game.isFinished) {
-                ""
-            } else {
-                runGame(chooseMove(game, waitForValidInput()))
+            var currentGame = game
+            while (true) {
+                printGameState(currentGame)
+                if (currentGame.isFinished) return ""
+                currentGame = makeMove(currentGame, waitForValidInput())
             }
         }
         return ""
+    }
+
+    private fun printGameState(game: Game) {
+        println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
+        println("Resources left: " + game.resources.toString())
+
+        listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
+
+        println("• Hand:")
+        printer.printCards(game.hand.cards)
+
+        printer.printerVariant = PrinterType.NORMAL
+    }
+
+    // A wrong move is reported and the game goes on, instead of crashing
+    private fun makeMove(game: Game, options: List<String>): Game {
+        return try {
+            chooseMove(game, options)
+        } catch (e: NumberFormatException) {
+            println("Wrong move: card number must be a number")
+            game
+        } catch (e: IllegalArgumentException) {
+            println("Wrong move: " + e.message)
+            game
+        } catch (e: IndexOutOfBoundsException) {
+            println("Wrong move: there is no card with that number")
+            game
+        }
     }
 
     private fun printAreaInfo(area: Area) {
@@ -35,16 +57,18 @@ class GameRunner(var gameType: GameType) {
         printer.printCards(area.cards)
     }
 
+    // End of input (e.g. Ctrl+D or end of piped moves) quits the game
     private fun waitForInput(): String {
-        val reader = BufferedReader(InputStreamReader(System.`in`))
         println("Your move? (h for help)")
-        return reader.readLine()
+        return input.readLine() ?: "q"
     }
 
     private fun waitForValidInput(): List<String> {
-        val input = waitForInput()
-        val cells = input.split(" ")
-        return if (isValidAction(cells[0])) cells else waitForValidInput()
+        while (true) {
+            val cells = waitForInput().trim().split(Regex("\\s+"))
+            if (isValidAction(cells[0])) return cells
+            println("Unknown command: " + cells[0])
+        }
     }
 
     private fun isValidAction(input: String): Boolean = commands.contains(input)
