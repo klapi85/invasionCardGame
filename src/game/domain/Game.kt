@@ -30,10 +30,11 @@ class Game(
     }
 
     fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): Boolean {
-        val cardCost = this.hand.cards[cardNumber].cost
-        return if (cardCost <= this.resources && !phase.isOncePerTurnLimitUsed) {
+        val card = this.hand.cards[cardNumber]
+        val isBlockedByTurnLimit = card.isOncePerTurnLimited && phase.isOncePerTurnLimitUsed
+        return if (card.cost <= this.resources && !isBlockedByTurnLimit) {
             tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber), this)
-            this.resources -= cardCost
+            this.resources -= card.cost
             true
         } else {
             false

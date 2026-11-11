@@ -115,6 +115,27 @@ class GameTest {
     }
 
     @Test
+    fun onceLimitedCardShouldNotBlockOtherCards() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+
+        //when
+        game.checkPutCardOnTable(0, game.kingdom)
+        game.checkPutCardOnTable(0, game.battlefield)
+
+        //then
+        assertEquals(1, game.hand.cards.size)
+        assertEquals(1, game.kingdom.cards.size)
+        assertEquals(1, game.battlefield.cards.size)
+    }
+
+    @Test
     fun tacticsCardShouldNotBePlacedOnTable() {
         //given
         val gameRunner = GameRunner(GameType.SILENT)
