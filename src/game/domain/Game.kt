@@ -11,10 +11,10 @@ class Game(
         val phase: PhaseManager = PhaseManager(),
         val deck: Deck = Deck()
 ) {
-    val battlefield = TableBattlefield(mutableListOf(), mutableListOf())
-    val kingdom = TableKingdom(mutableListOf(), mutableListOf())
-    val mission = TableMission(mutableListOf(), mutableListOf())
-    val hand = Hand(mutableListOf())
+    val battlefield = TableBattlefield()
+    val kingdom = TableKingdom()
+    val mission = TableMission()
+    val hand = Hand()
     var resources: Int = 3
 
     init {

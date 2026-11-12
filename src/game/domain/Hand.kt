@@ -1,7 +1,7 @@
 package game.domain
 
 class Hand(
-        var cards: MutableList<Card>
+        var cards: MutableList<Card> = mutableListOf()
     ) {
 
     fun removeFromHand(number: Int): Card =

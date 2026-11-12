@@ -6,8 +6,8 @@ import game.domain.Game
 
 abstract class Area()
 {
-    abstract var cards: MutableList<Card>
-    abstract var developments: MutableList<Card>
+    val cards: MutableList<Card> = mutableListOf()
+    val developments: MutableList<Card> = mutableListOf()
     abstract val areaName: String
     abstract val turnBonus: String
 
@@ -54,7 +54,7 @@ abstract class Area()
     }
 
     fun getAreaCardsPower(): Int =
-            this.cards.sumBy { it.power }
+            this.cards.sumOf { it.power }
 
     fun getDevelopmentsCounter(): Int =
             this.developments.size
