@@ -29,25 +29,21 @@ class Game(
         return game
     }
 
-    fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): Boolean {
+    fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): MoveResult {
         val card = this.hand.cards[cardNumber]
-        val isBlockedByTurnLimit = card.isOncePerTurnLimited && phase.isOncePerTurnLimitUsed
-        return if (card.cost <= this.resources && !isBlockedByTurnLimit) {
-            tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber), this)
-            this.resources -= card.cost
-            true
-        } else {
-            false
-        }
+        if (card.cost > this.resources) return MoveResult.NOT_ENOUGH_RESOURCES
+        if (card.isOncePerTurnLimited && phase.isOncePerTurnLimitUsed) return MoveResult.ONCE_PER_TURN_LIMIT_USED
+
+        tableArea.putNewCardOnTable(this.hand.removeFromHand(cardNumber), this)
+        this.resources -= card.cost
+        return MoveResult.OK
     }
 
-    fun checkAddNewDevelopment(cardNumber: Int, tableArea: Area): Boolean {
-        return if (!phase.isDevelopmentAdded) {
-            tableArea.addNewDevelopment(this.hand.removeFromHand(cardNumber), this)
-            true
-        } else {
-            false
-        }
+    fun checkAddNewDevelopment(cardNumber: Int, tableArea: Area): MoveResult {
+        if (phase.isDevelopmentAdded) return MoveResult.DEVELOPMENT_ALREADY_ADDED
+
+        tableArea.addNewDevelopment(this.hand.removeFromHand(cardNumber), this)
+        return MoveResult.OK
     }
 
     fun checkTakeCardFromAreaToHand(cardNumber: Int, tableArea: Area): Boolean {

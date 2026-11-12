@@ -4,6 +4,7 @@ import game.domain.Card
 import game.domain.CardType
 import game.domain.Deck
 import game.domain.Game
+import game.domain.MoveResult
 import game.domain.cards.LongWinter
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -95,6 +96,30 @@ class GameTest {
         //then
         assertEquals(2, game.hand.cards.size)
 
+    }
+
+    @Test
+    fun moveResultShouldExplainWhyMoveIsNotAllowed() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Black Dragon", 6, 4, 5),
+                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+        game.hand.takeCardToHand(game.deck.removeFromDeck(0))
+        game.hand.takeCardToHand(game.deck.removeFromDeck(0))
+
+        //then
+        assertEquals(MoveResult.NOT_ENOUGH_RESOURCES, game.checkPutCardOnTable(0, game.kingdom))
+        assertEquals(MoveResult.OK, game.checkPutCardOnTable(1, game.kingdom))
+        assertEquals(MoveResult.ONCE_PER_TURN_LIMIT_USED, game.checkPutCardOnTable(1, game.kingdom))
+        assertEquals(MoveResult.OK, game.checkAddNewDevelopment(1, game.mission))
+        assertEquals(MoveResult.DEVELOPMENT_ALREADY_ADDED, game.checkAddNewDevelopment(1, game.mission))
+        assertEquals(3, game.hand.cards.size)
     }
 
     @Test

@@ -1,6 +1,7 @@
 package game.consoleInterface
 
 import game.domain.Game
+import game.domain.MoveResult
 import game.domain.areas.Area
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -144,7 +145,7 @@ class GameRunner(
     }
 
     private fun playCardFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        game.checkPutCardOnTable(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        printMoveResult(game.checkPutCardOnTable(cardNumber.toInt(), chooseAreaByShortcut(areaName, game)))
         return game
     }
 
@@ -154,8 +155,18 @@ class GameRunner(
     }
 
     private fun putDevelopmentFromHand(game: Game, areaName: String, cardNumber: String): Game {
-        game.checkAddNewDevelopment(cardNumber.toInt(), chooseAreaByShortcut(areaName, game))
+        printMoveResult(game.checkAddNewDevelopment(cardNumber.toInt(), chooseAreaByShortcut(areaName, game)))
         return game
+    }
+
+    private fun printMoveResult(result: MoveResult) {
+        val message = when (result) {
+            MoveResult.OK -> return
+            MoveResult.NOT_ENOUGH_RESOURCES -> "not enough resources to play this card"
+            MoveResult.ONCE_PER_TURN_LIMIT_USED -> "this kind of card can be played only once per turn"
+            MoveResult.DEVELOPMENT_ALREADY_ADDED -> "only one development can be added per turn"
+        }
+        println("Move not allowed: " + message)
     }
 
     private fun chooseAreaByShortcut(areaShortcut: String, game: Game) : Area {
