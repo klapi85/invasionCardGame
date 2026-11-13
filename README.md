@@ -16,11 +16,13 @@ After lauching the game a command line interpreter is available.
 Commands:
 - play first card from hand to kingdom area: `p k 0`
 - play second card from hand to battlefield area: `p b 1`
+- next step/round: `n`
 - quit: `q`
 
 ## Features
 - cards can be tapped and untapped
-- cards have power and defence; power can be increased
+- creature cards have power and defence; power can be increased temporary
+- fighting: all untapped creatures deal their damage to the opponent
 - putting cards on table areas from hand
 - taking card to hand from table areas
 - zones on the table: Battlefield, Kingdom, Mission
@@ -28,8 +30,8 @@ Commands:
 - quit game
 
 ## Todo
-- game turns
-- fights
+- second player
+- fights (in progress)
 - tactics cards (in progress)
 
 ## Launching
