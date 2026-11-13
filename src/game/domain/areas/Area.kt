@@ -14,8 +14,9 @@ abstract class Area()
     fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
         newCard.onEnter(game)
 
-        // TACTIC cards should not be placed on the table
+        // TACTIC cards are not placed on the table, they go to the graveyard after their effect
         if (newCard.type == CardType.TACTIC) {
+            game.graveyard.putCard(newCard)
             return false
         }
 

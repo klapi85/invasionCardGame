@@ -15,10 +15,11 @@ class LongWinterTest {
     fun shouldReturnDevelopmentToHand() {
         //given
         val development = Card("Goblin", 1, 1, 1)
+        val longWinter = LongWinter()
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
                         development,
-                        LongWinter(),
+                        longWinter,
                         Card("Goblin", 1, 1, 1)
                 )
         val game = Game(1, deck = Deck(simpleDeck))
@@ -35,6 +36,7 @@ class LongWinterTest {
         assertEquals(0, game.battlefield.cards.size)
         assertEquals(2, game.hand.cards.size)
         assertTrue(game.hand.cards.contains(development))
+        assertEquals(listOf<Card>(longWinter), game.graveyard.cards)
     }
 
     @Test

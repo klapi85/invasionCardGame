@@ -34,6 +34,8 @@ class GameRunner(
         println("• Hand:")
         printer.printCards(game.hand.cards)
 
+        println("• Graveyard: " + game.graveyard.cards.size + " cards")
+
         printer.printerVariant = PrinterType.NORMAL
     }
 

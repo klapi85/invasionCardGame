@@ -162,7 +162,27 @@ class GameTest {
         //then
         assertEquals(2, game.hand.cards.size)
         assertEquals(0, game.kingdom.cards.size)
+        assertEquals(1, game.graveyard.cards.size)
 
+    }
+
+    @Test
+    fun unitCardShouldNotGoToGraveyard() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+
+        //when
+        game.checkPutCardOnTable(0, game.kingdom)
+
+        //then
+        assertEquals(1, game.kingdom.cards.size)
+        assertEquals(0, game.graveyard.cards.size)
     }
 
     @Test

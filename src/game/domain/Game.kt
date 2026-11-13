@@ -15,6 +15,7 @@ class Game(
     val kingdom = TableKingdom()
     val mission = TableMission()
     val hand = Hand()
+    val graveyard = Graveyard()
     var resources: Int = 3
 
     init {
