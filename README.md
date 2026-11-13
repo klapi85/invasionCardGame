@@ -64,6 +64,6 @@ Resources left: 3
 • Kingdom: (3 + 0) 0D
 
 • Hand:
-   Minotaur _ UNIT 2P 2D 2$ | Sanctuary _ SUPPORT 1P 1$ | Minotaur _ UNIT 2P 2D 2$ |
+   Minotaur _ UNIT 2P 2D 2$ | Contested Village _ SUPPORT 1P 1$ | Minotaur _ UNIT 2P 2D 2$ |
 Your move? (h for help)
 ```

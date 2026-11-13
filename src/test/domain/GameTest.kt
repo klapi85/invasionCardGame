@@ -1,10 +1,10 @@
 package test.domain
 
 import game.domain.Card
-import game.domain.CardType
 import game.domain.Deck
 import game.domain.Game
 import game.domain.MoveResult
+import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -76,9 +76,9 @@ class GameTest {
         //given
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true)
+                        ContestedVillage(),
+                        ContestedVillage(),
+                        ContestedVillage()
                 )
         val game = Game(1, deck = Deck(simpleDeck))
 
@@ -104,8 +104,8 @@ class GameTest {
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
                         Card("Black Dragon", 6, 4, 5),
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        ContestedVillage(),
+                        ContestedVillage(),
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
@@ -127,7 +127,7 @@ class GameTest {
         //given
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
-                        Card("Sanctuary", 1, cost = 1, type = CardType.SUPPORT, isOncePerTurnLimited = true),
+                        ContestedVillage(),
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
