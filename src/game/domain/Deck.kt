@@ -1,5 +1,6 @@
 package game.domain
 
+import game.domain.cards.BlackOrcSquad
 import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
 
@@ -10,9 +11,9 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             Card("Goblin", 1, 1, 1),
             Card("Goblin", 1, 1, 1),
             Card("Goblin", 1, 1, 1),
-            Card("Minotaur", 2, 2, 2),
-            Card("Minotaur", 2, 2, 2),
-            Card("Minotaur", 2, 2, 2),
+            BlackOrcSquad(),
+            BlackOrcSquad(),
+            BlackOrcSquad(),
             Card("Hydra", 3, 4, 3),
             Card("Green Dragon", 4, 4, 3),
             Card("Red Dragon", 5, 4, 4),

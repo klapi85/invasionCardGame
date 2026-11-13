@@ -6,6 +6,7 @@ import game.domain.Deck
 import game.domain.Game
 import game.domain.MoveResult
 import game.domain.PhaseType
+import game.domain.cards.BlackOrcSquad
 import game.domain.cards.ContestedVillage
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -72,13 +73,16 @@ class BattleTest {
         val simpleDeck: MutableList<Card> =
                 mutableListOf(
                         Card("Goblin", 1, 1, 1),
-                        Card("Minotaur", 2, 2, 2),
+                        BlackOrcSquad(),
                         Card("Goblin", 1, 1, 1)
                 )
         val game = Game(1, deck = Deck(simpleDeck))
+        game.resources = 4
         game.checkPutCardOnTable(0, game.battlefield)
         game.checkPutCardOnTable(0, game.battlefield)
         game.battlefield.tapCard(1)
+
+        assertEquals(2, game.battlefield.cards.size)
 
         //when
         game.phase.nextPhase(game)

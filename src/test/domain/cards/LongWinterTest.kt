@@ -3,6 +3,7 @@ package test.domain.cards
 import game.domain.Card
 import game.domain.Deck
 import game.domain.Game
+import game.domain.cards.BlackOrcSquad
 import game.domain.cards.LongWinter
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -61,7 +62,7 @@ class LongWinterTest {
     @Test
     fun shouldReturnOnlyOneDevelopment() {
         //given
-        val kingdomDevelopment = Card("Minotaur", 2, 2, 2)
+        val kingdomDevelopment = BlackOrcSquad()
         val missionDevelopment = Card("Hydra", 3, 4, 3)
         val simpleDeck: MutableList<Card> =
                 mutableListOf(

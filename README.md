@@ -66,6 +66,6 @@ Resources left: 3
 • Kingdom: (3 + 0) 0D
 
 • Hand:
-   Minotaur _ UNIT 2P 2D 2$ | Contested Village _ SUPPORT 1P 1$ | Minotaur _ UNIT 2P 2D 2$ |
+   Black Orc Squad _ UNIT 1P 3D 3$ | Contested Village _ SUPPORT 1P 1$ | Black Orc Squad _ UNIT 1P 3D 3$ |
 Your move? (h for help)
 ```
