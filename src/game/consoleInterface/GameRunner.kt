@@ -2,6 +2,7 @@ package game.consoleInterface
 
 import game.domain.Game
 import game.domain.MoveResult
+import game.domain.PhaseType
 import game.domain.areas.Area
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -18,6 +19,7 @@ class GameRunner(
             var currentGame = game
             while (true) {
                 printGameState(currentGame)
+                if (currentGame.isWon) println("You won! Enemy durability reached 0.")
                 if (currentGame.isFinished) return ""
                 currentGame = makeMove(currentGame, waitForValidInput())
             }
@@ -28,6 +30,7 @@ class GameRunner(
     private fun printGameState(game: Game) {
         println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
         println("Resources left: " + game.resources.toString())
+        println("Enemy durability: " + game.enemyDurability)
 
         listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
 
@@ -93,7 +96,7 @@ class GameRunner(
             "f" -> { this.printer.printerVariant = PrinterType.FULL
                      game
                    }
-            "n" -> game.phase.nextPhase(game)
+            "n" -> nextPhase(game)
             "q" -> game.escapeGame(game)
             else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }
@@ -161,9 +164,19 @@ class GameRunner(
         return game
     }
 
+    private fun nextPhase(game: Game): Game {
+        val durabilityBefore = game.enemyDurability
+        game.phase.nextPhase(game)
+        if (game.phase.currentPhase == PhaseType.MIDDLE) {
+            println("Battle! Your units dealt " + (durabilityBefore - game.enemyDurability) + " damage.")
+        }
+        return game
+    }
+
     private fun printMoveResult(result: MoveResult) {
         val message = when (result) {
             MoveResult.OK -> return
+            MoveResult.WRONG_PHASE -> "cards can be played only in the START phase"
             MoveResult.NOT_ENOUGH_RESOURCES -> "not enough resources to play this card"
             MoveResult.ONCE_PER_TURN_LIMIT_USED -> "this kind of card can be played only once per turn"
             MoveResult.DEVELOPMENT_ALREADY_ADDED -> "only one development can be added per turn"

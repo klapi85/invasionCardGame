@@ -18,6 +18,7 @@ class PhaseManager (
 
     private fun finishStartPhase(game: Game): Game {
         this.currentPhase = PhaseType.MIDDLE
+        game.battle()
         return game
     }
 

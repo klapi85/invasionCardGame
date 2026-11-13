@@ -81,6 +81,28 @@ class GameRunnerTest {
         assertEquals(3, game.hand.cards.size)
     }
 
+    @Test
+    fun battleShouldPrintDamageAndWin() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck), enemyDurability = 1)
+        val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("p b 0\nn\n")))
+
+        //when
+        val output = captureOutput { gameRunner.runGame(game) }
+
+        //then
+        assertTrue(output.contains("Enemy durability: 1"))
+        assertTrue(output.contains("Battle! Your units dealt 1 damage."))
+        assertTrue(output.contains("You won! Enemy durability reached 0."))
+        assertEquals(true, game.isWon)
+    }
+
     private fun captureOutput(block: () -> Unit): String {
         val originalOut = System.out
         val buffer = ByteArrayOutputStream()
