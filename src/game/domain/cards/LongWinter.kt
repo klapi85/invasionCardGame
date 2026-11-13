@@ -9,7 +9,8 @@ class LongWinter : Card(
         "Long Winter",
         1,
         cost = 1,
-        type = CardType.TACTIC
+        type = CardType.TACTIC,
+        website = "https://deckbox.org/whi/Long%20Winter"
 ) {
     override fun onEnter(game: Game) {
         val developmentsOnTable = listOf(game.battlefield, game.kingdom, game.mission)

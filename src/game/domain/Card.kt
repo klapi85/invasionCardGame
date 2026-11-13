@@ -9,7 +9,8 @@ open class Card(
         val type: CardType = CardType.UNIT,
         var power: Int = 0,
         var defence: Int = 0,
-        val isOncePerTurnLimited: Boolean = false
+        val isOncePerTurnLimited: Boolean = false,
+        val website: String = ""
 ) {
     init {
         this.power = this.startingPower

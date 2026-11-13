@@ -9,5 +9,6 @@ class ContestedVillage : Card(
         1,
         cost = 1,
         type = CardType.SUPPORT,
-        isOncePerTurnLimited = true
+        isOncePerTurnLimited = true,
+        website = "https://deckbox.org/whi/Contested%20Village"
 )
