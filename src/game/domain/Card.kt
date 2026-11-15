@@ -10,6 +10,7 @@ open class Card(
         var power: Int = 0,
         var defence: Int = 0,
         val isOncePerTurnLimited: Boolean = false,
+        val isBattlefieldOnly: Boolean = false,
         val website: String = ""
 ) {
     init {

@@ -46,6 +46,7 @@ class Game(
     fun checkPutCardOnTable(cardNumber: Int, tableArea: Area): MoveResult {
         val card = this.hand.cards[cardNumber]
         if (phase.currentPhase != PhaseType.START) return MoveResult.WRONG_PHASE
+        if (card.isBattlefieldOnly && tableArea !is TableBattlefield) return MoveResult.BATTLEFIELD_ONLY
         if (card.cost > this.resources) return MoveResult.NOT_ENOUGH_RESOURCES
         if (card.isOncePerTurnLimited && phase.isOncePerTurnLimitUsed) return MoveResult.ONCE_PER_TURN_LIMIT_USED
 

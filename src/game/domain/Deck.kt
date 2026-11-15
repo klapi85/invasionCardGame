@@ -3,6 +3,7 @@ package game.domain
 import game.domain.cards.BlackOrcSquad
 import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
+import game.domain.cards.ServantsOfKhorne
 
 class Deck(var cards: MutableList<Card> = arrayListOf()
 ) {
@@ -21,7 +22,8 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             ContestedVillage(),
             ContestedVillage(),
             ContestedVillage(),
-            LongWinter()
+            LongWinter(),
+            ServantsOfKhorne()
         )
 
     init {

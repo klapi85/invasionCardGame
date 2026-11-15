@@ -177,6 +177,7 @@ class GameRunner(
         val message = when (result) {
             MoveResult.OK -> return
             MoveResult.WRONG_PHASE -> "cards can be played only in the START phase"
+            MoveResult.BATTLEFIELD_ONLY -> "this card can be played only in the Battlefield area"
             MoveResult.NOT_ENOUGH_RESOURCES -> "not enough resources to play this card"
             MoveResult.ONCE_PER_TURN_LIMIT_USED -> "this kind of card can be played only once per turn"
             MoveResult.DEVELOPMENT_ALREADY_ADDED -> "only one development can be added per turn"

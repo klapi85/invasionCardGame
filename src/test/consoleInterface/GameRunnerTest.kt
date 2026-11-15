@@ -6,6 +6,7 @@ import game.domain.Card
 import game.domain.Deck
 import game.domain.Game
 import game.domain.PhaseType
+import game.domain.cards.ServantsOfKhorne
 import org.junit.jupiter.api.Test
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
@@ -101,6 +102,25 @@ class GameRunnerTest {
         assertTrue(output.contains("Battle! Your units dealt 1 damage."))
         assertTrue(output.contains("You won! Enemy durability reached 0."))
         assertEquals(true, game.isWon)
+    }
+
+    @Test
+    fun battlefieldOnlyCardShouldPrintReason() {
+        //given
+        val simpleDeck: MutableList<Card> =
+                mutableListOf(
+                        ServantsOfKhorne(),
+                        Card("Goblin", 1, 1, 1),
+                        Card("Goblin", 1, 1, 1)
+                )
+        val game = Game(1, deck = Deck(simpleDeck))
+        val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("p k 0\nq\n")))
+
+        //when
+        val output = captureOutput { gameRunner.runGame(game) }
+
+        //then
+        assertTrue(output.contains("Move not allowed: this card can be played only in the Battlefield area"))
     }
 
     private fun captureOutput(block: () -> Unit): String {
