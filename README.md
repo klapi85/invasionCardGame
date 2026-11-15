@@ -48,6 +48,12 @@ or build a runnable jar and start it:
 
 Run the tests with `./gradlew test`.
 
+Measure test coverage (runs the tests and prints the total line coverage):
+
+`./gradlew koverLog`
+
+For a detailed HTML report with uncovered lines highlighted, run `./gradlew koverHtmlReport` and open `build/reports/kover/html/index.html`.
+
 Without Gradle:
 
 `kotlinc $(find src/game -name '*.kt') -include-runtime -d invasion.jar`

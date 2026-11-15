@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.24"
     application
+    id("org.jetbrains.kotlinx.kover") version "0.9.11"
 }
 
 repositories {
