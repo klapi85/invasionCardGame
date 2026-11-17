@@ -5,6 +5,7 @@ import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
 import game.domain.cards.ServantsOfKhorne
 import game.domain.cards.SuperOrc
+import game.domain.cards.Waaagh
 
 class Deck(var cards: MutableList<Card> = arrayListOf()
 ) {
@@ -25,7 +26,8 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             ContestedVillage(),
             LongWinter(),
             ServantsOfKhorne(),
-            SuperOrc()
+            SuperOrc(),
+            Waaagh()
         )
 
     init {
