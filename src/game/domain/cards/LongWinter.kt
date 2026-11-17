@@ -3,6 +3,7 @@ package game.domain.cards
 import game.domain.Card
 import game.domain.CardType
 import game.domain.Game
+import game.domain.areas.Area
 
 // Tactic: returns a random development card from the table to the hand
 class LongWinter : Card(
@@ -12,13 +13,13 @@ class LongWinter : Card(
         type = CardType.TACTIC,
         website = "https://deckbox.org/whi/Long%20Winter"
 ) {
-    override fun onEnter(game: Game) {
+    override fun onEnter(game: Game, area: Area) {
         val developmentsOnTable = listOf(game.battlefield, game.kingdom, game.mission)
-                .flatMap { area -> area.developments.map { development -> area to development } }
+                .flatMap { tableArea -> tableArea.developments.map { development -> tableArea to development } }
         if (developmentsOnTable.isEmpty()) return
 
-        val (area, development) = developmentsOnTable.random()
-        area.developments.remove(development)
+        val (tableArea, development) = developmentsOnTable.random()
+        tableArea.developments.remove(development)
         game.hand.takeCardToHand(development)
     }
 }

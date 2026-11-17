@@ -12,7 +12,7 @@ abstract class Area()
     abstract val turnBonus: String
 
     fun putNewCardOnTable(newCard: Card, game: Game): Boolean {
-        newCard.onEnter(game)
+        newCard.onEnter(game, this)
 
         // TACTIC cards are not placed on the table, they go to the graveyard after their effect
         if (newCard.type == CardType.TACTIC) {

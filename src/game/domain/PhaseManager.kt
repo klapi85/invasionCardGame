@@ -35,6 +35,10 @@ class PhaseManager (
             if (game.deck.cards.isEmpty()) break
             game.hand.takeCardToHand(game.deck.removeFromDeck(0))
         }
+        // Temporary boosts still count above, for this turn's resources and cards
+        listOf(game.battlefield, game.kingdom, game.mission)
+                .flatMap { it.cards }
+                .forEach { it.removeTemporaryBoosts() }
         this.turnNumber++
         this.isOncePerTurnLimitUsed = false
         this.isDevelopmentAdded = false
