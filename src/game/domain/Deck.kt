@@ -1,6 +1,7 @@
 package game.domain
 
 import game.domain.cards.BlackOrcSquad
+import game.domain.cards.IronclawsHorde
 import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
 import game.domain.cards.ServantsOfKhorne
@@ -27,7 +28,8 @@ class Deck(var cards: MutableList<Card> = arrayListOf()
             LongWinter(),
             ServantsOfKhorne(),
             SuperOrc(),
-            Waaagh()
+            Waaagh(),
+            IronclawsHorde()
         )
 
     init {
