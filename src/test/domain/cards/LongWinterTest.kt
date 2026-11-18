@@ -3,6 +3,7 @@ package test.domain.cards
 import game.domain.Card
 import game.domain.Deck
 import game.domain.Game
+import game.domain.Player
 import game.domain.cards.BlackOrcSquad
 import game.domain.cards.LongWinter
 import org.junit.jupiter.api.Test
@@ -23,21 +24,21 @@ class LongWinterTest {
                         longWinter,
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        game.checkAddNewDevelopment(0, game.kingdom)
+        val game = Game(Player(1, Deck(simpleDeck)))
+        game.checkAddNewDevelopment(0, game.player1.kingdom)
 
-        assertEquals(1, game.kingdom.getDevelopmentsCounter())
-        assertEquals(2, game.hand.cards.size)
+        assertEquals(1, game.player1.kingdom.getDevelopmentsCounter())
+        assertEquals(2, game.player1.hand.cards.size)
 
         //when
-        game.checkPutCardOnTable(0, game.battlefield)
+        game.checkPutCardOnTable(0, game.player1.battlefield)
 
         //then
-        assertEquals(0, game.kingdom.getDevelopmentsCounter())
-        assertEquals(0, game.battlefield.cards.size)
-        assertEquals(2, game.hand.cards.size)
-        assertTrue(game.hand.cards.contains(development))
-        assertEquals(listOf<Card>(longWinter), game.graveyard.cards)
+        assertEquals(0, game.player1.kingdom.getDevelopmentsCounter())
+        assertEquals(0, game.player1.battlefield.cards.size)
+        assertEquals(2, game.player1.hand.cards.size)
+        assertTrue(game.player1.hand.cards.contains(development))
+        assertEquals(listOf<Card>(longWinter), game.player1.graveyard.cards)
     }
 
     @Test
@@ -49,14 +50,14 @@ class LongWinterTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
         //when
-        game.checkPutCardOnTable(0, game.kingdom)
+        game.checkPutCardOnTable(0, game.player1.kingdom)
 
         //then
-        assertEquals(2, game.hand.cards.size)
-        assertEquals(0, game.kingdom.cards.size)
+        assertEquals(2, game.player1.hand.cards.size)
+        assertEquals(0, game.player1.kingdom.cards.size)
     }
 
     @Test
@@ -70,16 +71,16 @@ class LongWinterTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        game.kingdom.developments.add(kingdomDevelopment)
-        game.mission.developments.add(missionDevelopment)
+        val game = Game(Player(1, Deck(simpleDeck)))
+        game.player1.kingdom.developments.add(kingdomDevelopment)
+        game.player1.mission.developments.add(missionDevelopment)
 
         //when
-        game.checkPutCardOnTable(0, game.kingdom)
+        game.checkPutCardOnTable(0, game.player1.kingdom)
 
         //then
-        assertEquals(1, game.kingdom.getDevelopmentsCounter() + game.mission.getDevelopmentsCounter())
-        assertEquals(3, game.hand.cards.size)
-        assertTrue(game.hand.cards.contains(kingdomDevelopment) xor game.hand.cards.contains(missionDevelopment))
+        assertEquals(1, game.player1.kingdom.getDevelopmentsCounter() + game.player1.mission.getDevelopmentsCounter())
+        assertEquals(3, game.player1.hand.cards.size)
+        assertTrue(game.player1.hand.cards.contains(kingdomDevelopment) xor game.player1.hand.cards.contains(missionDevelopment))
     }
 }

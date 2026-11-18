@@ -19,7 +19,7 @@ class GameRunner(
             var currentGame = game
             while (true) {
                 printGameState(currentGame)
-                if (currentGame.isWon) println("You won! Enemy durability reached 0.")
+                currentGame.winner?.let { println("Player " + it.id + " won! Player " + currentGame.opponent.id + " durability reached 0.") }
                 if (currentGame.isFinished) return ""
                 currentGame = makeMove(currentGame, waitForValidInput())
             }
@@ -28,16 +28,17 @@ class GameRunner(
     }
 
     private fun printGameState(game: Game) {
-        println("Turn: " + game.phase.turnNumber + " phase: " + game.phase.currentPhase)
-        println("Resources left: " + game.resources.toString())
-        println("Enemy durability: " + game.enemyDurability)
+        val player = game.activePlayer
+        println("Turn: " + game.phase.turnNumber + " Player " + player.id + " phase: " + game.phase.currentPhase)
+        println("Durability: Player 1: " + game.player1.durability + ", Player 2: " + game.player2.durability)
+        println("Resources left: " + player.resources.toString())
 
-        listOf(game.battlefield, game.mission, game.kingdom).forEach{ printAreaInfo(it) }
+        listOf(player.battlefield, player.mission, player.kingdom).forEach{ printAreaInfo(it) }
 
         println("• Hand:")
-        printer.printCards(game.hand.cards)
+        printer.printCards(player.hand.cards)
 
-        println("• Graveyard: " + game.graveyard.cards.size + " cards")
+        println("• Graveyard: " + player.graveyard.cards.size + " cards")
 
         printer.printerVariant = PrinterType.NORMAL
     }
@@ -97,7 +98,7 @@ class GameRunner(
                      game
                    }
             "n" -> nextPhase(game)
-            "q" -> game.escapeGame(game)
+            "q" -> game.escapeGame()
             else -> throw IllegalArgumentException("Wrong action with 1 param.")
         }
     }
@@ -165,10 +166,13 @@ class GameRunner(
     }
 
     private fun nextPhase(game: Game): Game {
-        val durabilityBefore = game.enemyDurability
+        val durabilityBefore = game.opponent.durability
         game.phase.nextPhase(game)
-        if (game.phase.currentPhase == PhaseType.MIDDLE) {
-            println("Battle! Your units dealt " + (durabilityBefore - game.enemyDurability) + " damage.")
+        when (game.phase.currentPhase) {
+            PhaseType.MIDDLE -> println("Battle! Player " + game.activePlayer.id + " units dealt " +
+                    (durabilityBefore - game.opponent.durability) + " damage to Player " + game.opponent.id + ".")
+            PhaseType.START -> println("Player " + game.activePlayer.id + " turn starts.")
+            PhaseType.END -> {}
         }
         return game
     }
@@ -188,13 +192,13 @@ class GameRunner(
     private fun chooseAreaByShortcut(areaShortcut: String, game: Game) : Area {
         return when (areaShortcut) {
             "b" -> {
-                game.battlefield
+                game.activePlayer.battlefield
             }
             "k" -> {
-                game.kingdom
+                game.activePlayer.kingdom
             }
             "m" -> {
-                game.mission
+                game.activePlayer.mission
             }
             else -> throw IllegalArgumentException("Please use proper area to play card")
         }

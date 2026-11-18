@@ -5,6 +5,7 @@ import game.consoleInterface.GameType
 import game.domain.Card
 import game.domain.Deck
 import game.domain.Game
+import game.domain.Player
 import game.domain.PhaseType
 import game.domain.cards.ServantsOfKhorne
 import org.junit.jupiter.api.Test
@@ -22,7 +23,7 @@ class GameRunnerTest {
     fun silentGameShouldNotChangeGame() {
         //given
         val gameRunner = GameRunner(GameType.SILENT)
-        val game = Game(1)
+        val game = Game()
 
         //when
         gameRunner.runGame(game)
@@ -30,7 +31,7 @@ class GameRunnerTest {
         //then
         assertEquals(false, game.isFinished)
         assertEquals(PhaseType.START, game.phase.currentPhase)
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
     }
 
     @Test
@@ -38,7 +39,7 @@ class GameRunnerTest {
         //given
         val moves = listOf("x", "", "p x 0", "p k 9", "p k a", "p k", "n", "q").joinToString("\n")
         val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader(moves)))
-        val game = Game(1)
+        val game = Game()
 
         //when
         gameRunner.runGame(game)
@@ -46,14 +47,14 @@ class GameRunnerTest {
         //then
         assertEquals(true, game.isFinished)
         assertEquals(PhaseType.MIDDLE, game.phase.currentPhase)
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
     }
 
     @Test
     fun endOfInputShouldFinishGame() {
         //given
         val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("n\n")))
-        val game = Game(1)
+        val game = Game()
 
         //when
         gameRunner.runGame(game)
@@ -71,7 +72,7 @@ class GameRunnerTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
         val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("p k 0\nq\n")))
 
         //when
@@ -79,7 +80,7 @@ class GameRunnerTest {
 
         //then
         assertTrue(output.contains("Move not allowed: not enough resources to play this card"))
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
     }
 
     @Test
@@ -91,17 +92,17 @@ class GameRunnerTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck), enemyDurability = 1)
+        val game = Game(Player(1, Deck(simpleDeck)), Player(2, durability = 1))
         val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("p b 0\nn\n")))
 
         //when
         val output = captureOutput { gameRunner.runGame(game) }
 
         //then
-        assertTrue(output.contains("Enemy durability: 1"))
-        assertTrue(output.contains("Battle! Your units dealt 1 damage."))
-        assertTrue(output.contains("You won! Enemy durability reached 0."))
-        assertEquals(true, game.isWon)
+        assertTrue(output.contains("Durability: Player 1: 40, Player 2: 1"))
+        assertTrue(output.contains("Battle! Player 1 units dealt 1 damage to Player 2."))
+        assertTrue(output.contains("Player 1 won! Player 2 durability reached 0."))
+        assertEquals(game.player1, game.winner)
     }
 
     @Test
@@ -113,7 +114,7 @@ class GameRunnerTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
         val gameRunner = GameRunner(GameType.INTERACTIVE, BufferedReader(StringReader("p k 0\nq\n")))
 
         //when

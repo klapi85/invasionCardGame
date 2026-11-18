@@ -3,6 +3,7 @@ package test.domain
 import game.domain.Card
 import game.domain.Deck
 import game.domain.Game
+import game.domain.Player
 import game.domain.MoveResult
 import game.domain.cards.ContestedVillage
 import game.domain.cards.LongWinter
@@ -15,10 +16,10 @@ class GameTest {
     @Test
     fun gameShouldStart() {
         //when
-        val game = Game(1)
+        val game = Game()
 
         //then
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
     }
 
 
@@ -33,12 +34,12 @@ class GameTest {
                 )
 
         //when
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
         //then
-        assertEquals(3, game.hand.cards.size)
-        assertEquals(1, game.hand.cards[1].startingPower)
-        assertEquals("Goblin", game.hand.cards[1].id)
+        assertEquals(3, game.player1.hand.cards.size)
+        assertEquals(1, game.player1.hand.cards[1].startingPower)
+        assertEquals("Goblin", game.player1.hand.cards[1].id)
     }
 
     @Test
@@ -50,24 +51,24 @@ class GameTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
-        assertEquals(3, game.hand.cards.size)
-        assertEquals(0, game.kingdom.getDevelopmentsCounter())
-
-        //when
-        game.checkAddNewDevelopment(0, game.kingdom)
-
-        //then
-        assertEquals(2, game.hand.cards.size)
-        assertEquals(1, game.kingdom.getDevelopmentsCounter())
+        assertEquals(3, game.player1.hand.cards.size)
+        assertEquals(0, game.player1.kingdom.getDevelopmentsCounter())
 
         //when
-        game.checkAddNewDevelopment(0, game.kingdom)
+        game.checkAddNewDevelopment(0, game.player1.kingdom)
 
         //then
-        assertEquals(2, game.hand.cards.size)
-        assertEquals(1, game.kingdom.getDevelopmentsCounter())
+        assertEquals(2, game.player1.hand.cards.size)
+        assertEquals(1, game.player1.kingdom.getDevelopmentsCounter())
+
+        //when
+        game.checkAddNewDevelopment(0, game.player1.kingdom)
+
+        //then
+        assertEquals(2, game.player1.hand.cards.size)
+        assertEquals(1, game.player1.kingdom.getDevelopmentsCounter())
 
     }
 
@@ -80,21 +81,21 @@ class GameTest {
                         ContestedVillage(),
                         ContestedVillage()
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
-        assertEquals(3, game.hand.cards.size)
-
-        //when
-        game.checkPutCardOnTable(1, game.kingdom)
-
-        //then
-        assertEquals(2, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
 
         //when
-        game.checkPutCardOnTable(1, game.kingdom)
+        game.checkPutCardOnTable(1, game.player1.kingdom)
 
         //then
-        assertEquals(2, game.hand.cards.size)
+        assertEquals(2, game.player1.hand.cards.size)
+
+        //when
+        game.checkPutCardOnTable(1, game.player1.kingdom)
+
+        //then
+        assertEquals(2, game.player1.hand.cards.size)
 
     }
 
@@ -109,17 +110,17 @@ class GameTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        game.hand.takeCardToHand(game.deck.removeFromDeck(0))
-        game.hand.takeCardToHand(game.deck.removeFromDeck(0))
+        val game = Game(Player(1, Deck(simpleDeck)))
+        game.player1.hand.takeCardToHand(game.player1.deck.removeFromDeck(0))
+        game.player1.hand.takeCardToHand(game.player1.deck.removeFromDeck(0))
 
         //then
-        assertEquals(MoveResult.NOT_ENOUGH_RESOURCES, game.checkPutCardOnTable(0, game.kingdom))
-        assertEquals(MoveResult.OK, game.checkPutCardOnTable(1, game.kingdom))
-        assertEquals(MoveResult.ONCE_PER_TURN_LIMIT_USED, game.checkPutCardOnTable(1, game.kingdom))
-        assertEquals(MoveResult.OK, game.checkAddNewDevelopment(1, game.mission))
-        assertEquals(MoveResult.DEVELOPMENT_ALREADY_ADDED, game.checkAddNewDevelopment(1, game.mission))
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(MoveResult.NOT_ENOUGH_RESOURCES, game.checkPutCardOnTable(0, game.player1.kingdom))
+        assertEquals(MoveResult.OK, game.checkPutCardOnTable(1, game.player1.kingdom))
+        assertEquals(MoveResult.ONCE_PER_TURN_LIMIT_USED, game.checkPutCardOnTable(1, game.player1.kingdom))
+        assertEquals(MoveResult.OK, game.checkAddNewDevelopment(1, game.player1.mission))
+        assertEquals(MoveResult.DEVELOPMENT_ALREADY_ADDED, game.checkAddNewDevelopment(1, game.player1.mission))
+        assertEquals(3, game.player1.hand.cards.size)
     }
 
     @Test
@@ -131,16 +132,16 @@ class GameTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
         //when
-        game.checkPutCardOnTable(0, game.kingdom)
-        game.checkPutCardOnTable(0, game.battlefield)
+        game.checkPutCardOnTable(0, game.player1.kingdom)
+        game.checkPutCardOnTable(0, game.player1.battlefield)
 
         //then
-        assertEquals(1, game.hand.cards.size)
-        assertEquals(1, game.kingdom.cards.size)
-        assertEquals(1, game.battlefield.cards.size)
+        assertEquals(1, game.player1.hand.cards.size)
+        assertEquals(1, game.player1.kingdom.cards.size)
+        assertEquals(1, game.player1.battlefield.cards.size)
     }
 
     @Test
@@ -152,17 +153,17 @@ class GameTest {
                         LongWinter(),
                         LongWinter()
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(3, game.player1.hand.cards.size)
 
         //when
-        game.checkPutCardOnTable(1, game.kingdom)
+        game.checkPutCardOnTable(1, game.player1.kingdom)
 
         //then
-        assertEquals(2, game.hand.cards.size)
-        assertEquals(0, game.kingdom.cards.size)
-        assertEquals(1, game.graveyard.cards.size)
+        assertEquals(2, game.player1.hand.cards.size)
+        assertEquals(0, game.player1.kingdom.cards.size)
+        assertEquals(1, game.player1.graveyard.cards.size)
 
     }
 
@@ -175,14 +176,14 @@ class GameTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
         //when
-        game.checkPutCardOnTable(0, game.kingdom)
+        game.checkPutCardOnTable(0, game.player1.kingdom)
 
         //then
-        assertEquals(1, game.kingdom.cards.size)
-        assertEquals(0, game.graveyard.cards.size)
+        assertEquals(1, game.player1.kingdom.cards.size)
+        assertEquals(0, game.player1.graveyard.cards.size)
     }
 
     @Test
@@ -194,15 +195,15 @@ class GameTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)))
 
-        assertEquals(0, game.deck.cards.size)
+        assertEquals(0, game.player1.deck.cards.size)
 
         //when
         repeat(3) { game.phase.nextPhase(game) }
 
-        //then
-        assertEquals(2, game.phase.turnNumber)
-        assertEquals(3, game.hand.cards.size)
+        //then player 2's turn starts, player 1 drew nothing
+        assertEquals(game.player2, game.activePlayer)
+        assertEquals(3, game.player1.hand.cards.size)
     }
 }

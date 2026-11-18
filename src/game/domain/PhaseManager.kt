@@ -27,19 +27,11 @@ class PhaseManager (
         return game
     }
 
+    // After the END phase the other player's turn starts; the turn number grows when player 1 is back
     private fun finishEndPhase(game: Game): Game {
         this.currentPhase = PhaseType.START
-        game.resources = 3 + game.kingdom.getAreaCardsPower()
-
-        for (i in 1..(1 + game.mission.getAreaCardsPower() ) ) {
-            if (game.deck.cards.isEmpty()) break
-            game.hand.takeCardToHand(game.deck.removeFromDeck(0))
-        }
-        // Temporary boosts still count above, for this turn's resources and cards
-        listOf(game.battlefield, game.kingdom, game.mission)
-                .flatMap { it.cards }
-                .forEach { it.removeTemporaryBoosts() }
-        this.turnNumber++
+        game.endTurn()
+        if (game.activePlayer == game.player1) this.turnNumber++
         this.isOncePerTurnLimitUsed = false
         this.isDevelopmentAdded = false
         return game

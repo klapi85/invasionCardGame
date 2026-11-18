@@ -16,7 +16,7 @@ abstract class Area()
 
         // TACTIC cards are not placed on the table, they go to the graveyard after their effect
         if (newCard.type == CardType.TACTIC) {
-            game.graveyard.putCard(newCard)
+            game.activePlayer.graveyard.putCard(newCard)
             return false
         }
 

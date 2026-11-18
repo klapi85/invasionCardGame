@@ -4,6 +4,7 @@ import game.domain.Card
 import game.domain.CardStatus
 import game.domain.Deck
 import game.domain.Game
+import game.domain.Player
 import game.domain.MoveResult
 import game.domain.PhaseType
 import game.domain.cards.BlackOrcSquad
@@ -17,10 +18,10 @@ class BattleTest {
     @Test
     fun enemyShouldStartWith40Durability() {
         //when
-        val game = Game(1)
+        val game = Game()
 
         //then
-        assertEquals(40, game.enemyDurability)
+        assertEquals(40, game.player2.durability)
     }
 
     @Test
@@ -32,18 +33,18 @@ class BattleTest {
                         Card("Goblin", 1, 1, 1),
                         ContestedVillage()
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        repeat(3) { game.checkPutCardOnTable(0, game.battlefield) }
+        val game = Game(Player(1, Deck(simpleDeck)))
+        repeat(3) { game.checkPutCardOnTable(0, game.player1.battlefield) }
 
-        assertEquals(3, game.battlefield.cards.size)
+        assertEquals(3, game.player1.battlefield.cards.size)
 
         //when
         game.phase.nextPhase(game)
 
         //then
         assertEquals(PhaseType.MIDDLE, game.phase.currentPhase)
-        assertEquals(38, game.enemyDurability)
-        assertEquals(false, game.isWon)
+        assertEquals(38, game.player2.durability)
+        assertEquals(null, game.winner)
         assertEquals(false, game.isFinished)
     }
 
@@ -56,15 +57,15 @@ class BattleTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        game.checkPutCardOnTable(0, game.kingdom)
-        game.checkPutCardOnTable(0, game.mission)
+        val game = Game(Player(1, Deck(simpleDeck)))
+        game.checkPutCardOnTable(0, game.player1.kingdom)
+        game.checkPutCardOnTable(0, game.player1.mission)
 
         //when
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(40, game.enemyDurability)
+        assertEquals(40, game.player2.durability)
     }
 
     @Test
@@ -76,21 +77,21 @@ class BattleTest {
                         BlackOrcSquad(),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
-        game.resources = 4
-        game.checkPutCardOnTable(0, game.battlefield)
-        game.checkPutCardOnTable(0, game.battlefield)
-        game.battlefield.tapCard(1)
+        val game = Game(Player(1, Deck(simpleDeck)))
+        game.player1.resources = 4
+        game.checkPutCardOnTable(0, game.player1.battlefield)
+        game.checkPutCardOnTable(0, game.player1.battlefield)
+        game.player1.battlefield.tapCard(1)
 
-        assertEquals(2, game.battlefield.cards.size)
+        assertEquals(2, game.player1.battlefield.cards.size)
 
         //when
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(39, game.enemyDurability)
-        assertEquals(CardStatus.TAPPED, game.battlefield.cards[1].status)
-        assertEquals(CardStatus.UNDEF, game.battlefield.cards[0].status)
+        assertEquals(39, game.player2.durability)
+        assertEquals(CardStatus.TAPPED, game.player1.battlefield.cards[1].status)
+        assertEquals(CardStatus.UNDEF, game.player1.battlefield.cards[0].status)
     }
 
     @Test
@@ -103,27 +104,28 @@ class BattleTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck))
+        val game = Game(Player(1, Deck(simpleDeck)), Player(2, Deck(goblins())))
 
         //when MIDDLE
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(MoveResult.WRONG_PHASE, game.checkPutCardOnTable(0, game.battlefield))
-        assertEquals(MoveResult.WRONG_PHASE, game.checkAddNewDevelopment(0, game.kingdom))
+        assertEquals(MoveResult.WRONG_PHASE, game.checkPutCardOnTable(0, game.player1.battlefield))
+        assertEquals(MoveResult.WRONG_PHASE, game.checkAddNewDevelopment(0, game.player1.kingdom))
 
         //when END
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(MoveResult.WRONG_PHASE, game.checkPutCardOnTable(0, game.battlefield))
-        assertEquals(3, game.hand.cards.size)
+        assertEquals(MoveResult.WRONG_PHASE, game.checkPutCardOnTable(0, game.player1.battlefield))
+        assertEquals(3, game.player1.hand.cards.size)
 
-        //when START of the next turn
+        //when START of player 2's turn
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(MoveResult.OK, game.checkPutCardOnTable(0, game.battlefield))
+        assertEquals(MoveResult.OK, game.checkPutCardOnTable(0, game.player2.battlefield))
+        assertEquals(1, game.player2.battlefield.cards.size)
     }
 
     @Test
@@ -135,16 +137,24 @@ class BattleTest {
                         Card("Goblin", 1, 1, 1),
                         Card("Goblin", 1, 1, 1)
                 )
-        val game = Game(1, deck = Deck(simpleDeck), enemyDurability = 2)
-        game.checkPutCardOnTable(0, game.battlefield)
-        game.checkPutCardOnTable(0, game.battlefield)
+        val game = Game(Player(1, Deck(simpleDeck)), Player(2, durability = 2))
+        game.checkPutCardOnTable(0, game.player1.battlefield)
+        game.checkPutCardOnTable(0, game.player1.battlefield)
 
         //when
         game.phase.nextPhase(game)
 
         //then
-        assertEquals(0, game.enemyDurability)
-        assertEquals(true, game.isWon)
+        assertEquals(0, game.player2.durability)
+        assertEquals(game.player1, game.winner)
         assertEquals(true, game.isFinished)
     }
+
+    private fun goblins(): MutableList<Card> =
+            mutableListOf(
+                    Card("Goblin", 1, 1, 1),
+                    Card("Goblin", 1, 1, 1),
+                    Card("Goblin", 1, 1, 1),
+                    Card("Goblin", 1, 1, 1)
+            )
 }
